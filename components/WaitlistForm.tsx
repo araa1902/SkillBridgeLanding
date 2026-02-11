@@ -60,8 +60,17 @@ const WaitlistForm: React.FC = () => {
     const fetchUniversities = async () => {
       try {
         setIsLoadingUnis(true);
-        // In production, cache this or use a static list for performance
-        const response = await fetch('https://universities.hipolabs.com/search?country=United Kingdom');
+        // Use your backend API route instead of calling external API directly
+        // This avoids CORS issues on Vercel
+        const response = await fetch('/api/universities?country=United Kingdom', {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status}`);
+        }
         const data = await response.json();
         const sortedUnis = data.sort((a: University, b: University) => 
           a.name.localeCompare(b.name)
@@ -70,6 +79,9 @@ const WaitlistForm: React.FC = () => {
         setFilteredUniversities(sortedUnis);
       } catch (error) {
         console.error('Error fetching universities:', error);
+        // Fallback to empty list on error - form still works without university selection
+        setUniversities([]);
+        setFilteredUniversities([]);
       } finally {
         setIsLoadingUnis(false);
       }
