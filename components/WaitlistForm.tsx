@@ -61,7 +61,7 @@ const WaitlistForm: React.FC = () => {
       try {
         setIsLoadingUnis(true);
         // In production, cache this or use a static list for performance
-        const response = await fetch('http://universities.hipolabs.com/search?country=United Kingdom');
+        const response = await fetch('https://universities.hipolabs.com/search?country=United Kingdom');
         const data = await response.json();
         const sortedUnis = data.sort((a: University, b: University) => 
           a.name.localeCompare(b.name)
