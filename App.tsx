@@ -6,6 +6,7 @@ import Differentiation from './components/Differentiation';
 import Credibility from './components/Credibility';
 import WaitlistForm from './components/WaitlistForm';
 import Footer from './components/Footer';
+import { Button } from './components/ui/button';
 
 function App() {
   const scrollToWaitlist = () => {
@@ -23,12 +24,12 @@ function App() {
             <span className="text-xl font-bold text-slate-900 tracking-tight cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth'})}>
               SkillBridge
             </span>
-            <button 
+            <Button 
               onClick={scrollToWaitlist}
-              className="text-sm font-semibold text-white bg-slate-900 px-4 py-2 rounded-lg hover:bg-slate-800 transition-colors"
+              className="text-sm font-semibold"
             >
               Get Early Access
-            </button>
+            </Button>
           </div>
         </div>
       </nav>

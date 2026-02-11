@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle, ShieldCheck, UserCheck } from 'lucide-react';
 import { UserRole } from '../types';
+import { Button } from '@/components/ui/button';
 
 interface HeroProps {
   onScrollToWaitlist: () => void;
@@ -42,34 +43,44 @@ const Hero: React.FC<HeroProps> = ({ onScrollToWaitlist }) => {
                 {roleContent[activeRole]} SkillBridge connects university talent with forward-thinking SMEs through structured, verified micro-internships.
               </p>
 
-              {/* Segmentation Toggle */}
-              <div className="mb-8 inline-flex p-1 bg-slate-100 rounded-lg">
-                {(['Student', 'Business', 'University'] as UserRole[]).map((role) => (
-                  <button
+                  {/* Segmentation Toggle */}
+                  <div className="mb-8 inline-flex rounded-lg bg-slate-100 p-1">
+                  {(['Student', 'Business', 'University'] as UserRole[]).map((role) => (
+                    <button
                     key={role}
                     onClick={() => setActiveRole(role)}
-                    className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
-                      activeRole === role 
-                        ? 'bg-white text-slate-900 shadow-sm' 
-                        : 'text-slate-500 hover:text-slate-700'
+                    className={`px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 ${
+                      activeRole === role
+                      ? 'bg-white text-blue-600 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900'
                     }`}
-                  >
+                    >
                     I'm a {role}
-                  </button>
-                ))}
-              </div>
+                    </button>
+                  ))}
+                  </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <button 
+                <Button 
                   onClick={onScrollToWaitlist}
-                  className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-6 py-3.5 text-base font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-colors"
+                  size="lg"
+                  className="inline-flex items-center"
                 >
                   Join the Waitlist
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </button>
-                <a href="#how-it-works" className="inline-flex items-center justify-center rounded-lg bg-white px-6 py-3.5 text-base font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 transition-colors">
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="lg"
+                  onClick={() => {
+                    const element = document.getElementById('how-it-works');
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                >
                   How it Works
-                </a>
+                </Button>
               </div>
             </motion.div>
           </div>
@@ -91,7 +102,7 @@ const Hero: React.FC<HeroProps> = ({ onScrollToWaitlist }) => {
                     <div className="h-3 w-3 rounded-full bg-yellow-400"></div>
                     <div className="h-3 w-3 rounded-full bg-green-400"></div>
                   </div>
-                  <div className="text-xs font-medium text-slate-400">SkillBridge Dashboard</div>
+                  <div className="text-xs font-medium text-slate-400">Dashboard</div>
                 </div>
 
                 {/* Content */}
@@ -135,9 +146,9 @@ const Hero: React.FC<HeroProps> = ({ onScrollToWaitlist }) => {
                         <div className="h-8 w-8 rounded-full bg-slate-200 ring-2 ring-white flex items-center justify-center text-xs text-slate-500">JD</div>
                         <div className="h-8 w-8 rounded-full bg-slate-300 ring-2 ring-white flex items-center justify-center text-xs text-slate-600">AS</div>
                      </div>
-                     <button className="rounded-md bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-800">
+                     <Button size="sm">
                         View Project
-                     </button>
+                     </Button>
                   </div>
                 </div>
               </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FileText, Users, Award } from 'lucide-react';
+import { FileText, Award } from 'lucide-react';
+import { ScrollIcon, UsersIcon, CertificateIcon} from '@phosphor-icons/react';
 
 const HowItWorks: React.FC = () => {
   const steps = [
@@ -8,19 +9,19 @@ const HowItWorks: React.FC = () => {
       id: "01",
       title: "Post a Project",
       description: "Businesses post structured micro-projects with clear deliverables. Our AI helps refine briefs to ensure they are suitable for students.",
-      icon: <FileText className="h-6 w-6 text-white" />
+      icon: <ScrollIcon className="h-6 w-6 text-white" />
     },
     {
       id: "02",
       title: "Get Matched",
       description: "Verified students apply. Our algorithm matches candidates based on their university course, skills, and academic interests.",
-      icon: <Users className="h-6 w-6 text-white" />
+      icon: <UsersIcon className="h-6 w-6 text-white" />
     },
     {
       id: "03",
       title: "Complete & Certify",
       description: "Students complete the work. Upon approval, payment is released via escrow, and a co-branded micro-credential is issued.",
-      icon: <Award className="h-6 w-6 text-white" />
+      icon: <CertificateIcon className="h-6 w-6 text-white" />
     }
   ];
 
