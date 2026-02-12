@@ -12,7 +12,7 @@ const Hero: React.FC<HeroProps> = ({ onScrollToWaitlist }) => {
   const [activeRole, setActiveRole] = useState<UserRole>('Student');
 
   const roleContent = {
-    Student: "Launch your career with verified micro-projects.",
+    Student: "Launch your career with paid, verified micro-projects.",
     Business: "Access verified university talent on demand.",
     University: "Boost graduate employability outcomes."
   };
