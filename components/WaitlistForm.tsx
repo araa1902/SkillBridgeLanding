@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/select';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils'; // standard shadcn utility
+import { universities } from '@/src/universities-data';
 
 interface University {
   name: string;
@@ -48,46 +49,18 @@ const WaitlistForm: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [universities, setUniversities] = useState<University[]>([]);
   const [filteredUniversities, setFilteredUniversities] = useState<University[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [isLoadingUnis, setIsLoadingUnis] = useState(false);
   
   // Ref for clicking outside dropdown
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const fetchUniversities = async () => {
-      try {
-        setIsLoadingUnis(true);
-        // Use your backend API route instead of calling external API directly
-        // This avoids CORS issues on Vercel
-        const response = await fetch('/api/universities?country=United Kingdom', {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json'
-          }
-        });
-        if (!response.ok) {
-          throw new Error(`API error: ${response.status}`);
-        }
-        const data = await response.json();
-        const sortedUnis = data.sort((a: University, b: University) => 
-          a.name.localeCompare(b.name)
-        );
-        setUniversities(sortedUnis);
-        setFilteredUniversities(sortedUnis);
-      } catch (error) {
-        console.error('Error fetching universities:', error);
-        // Fallback to empty list on error - form still works without university selection
-        setUniversities([]);
-        setFilteredUniversities([]);
-      } finally {
-        setIsLoadingUnis(false);
-      }
-    };
-
-    fetchUniversities();
+    // Initialize with all universities sorted by name
+    const sortedUnis = universities.sort((a: University, b: University) => 
+      a.name.localeCompare(b.name)
+    );
+    setFilteredUniversities(sortedUnis);
 
     // Click outside handler
     const handleClickOutside = (event: MouseEvent) => {
@@ -246,12 +219,7 @@ const WaitlistForm: React.FC = () => {
                                 exit={{ opacity: 0, y: 5, scale: 0.98 }}
                                 className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-100 rounded-xl shadow-xl shadow-slate-200/50 z-50 max-h-60 overflow-y-auto"
                               >
-                                {isLoadingUnis ? (
-                                  <div className="p-4 text-center text-slate-500 flex items-center justify-center gap-2 text-sm">
-                                    <Loader2 className="animate-spin h-3 w-3" />
-                                    Finding universities...
-                                  </div>
-                                ) : filteredUniversities.length > 0 ? (
+                                {filteredUniversities.length > 0 ? (
                                   <div className="py-1">
                                     {filteredUniversities.map((uni, index) => (
                                       <button
