@@ -1,28 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FormData, UserRole } from '../types'; // Assuming these exist in your project
+import { FormData, UserRole } from '../types';
 import { 
   CheckCircle2, 
   Loader2, 
-  ChevronDown, 
   Building2, 
   User, 
   Mail, 
-  ArrowRight,
-  Sparkles 
+  Briefcase,
+  Search,
+  Shield
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Card } from '@/components/ui/card';
-import { cn } from '@/lib/utils'; // standard shadcn utility
+import { cn } from '@/lib/utils';
 import { universities } from '@/src/universities-data';
 
 interface University {
@@ -30,15 +23,10 @@ interface University {
   country: string;
 }
 
-// --- Visual Components ---
-
-const BackgroundGrid = () => (
-  <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
-    <div className="absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_800px_at_100%_200px,#d5c5ff,transparent)]" />
-  </div>
+// Minimalist background
+const MinimalBackground = () => (
+  <div className="absolute inset-0 -z-10 h-full w-full bg-white" />
 );
-
-// --- Main Form ---
 
 const WaitlistForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
@@ -51,18 +39,16 @@ const WaitlistForm: React.FC = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [filteredUniversities, setFilteredUniversities] = useState<University[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [activeField, setActiveField] = useState<string | null>(null);
   
-  // Ref for clicking outside dropdown
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Initialize with all universities sorted by name
     const sortedUnis = universities.sort((a: University, b: University) => 
       a.name.localeCompare(b.name)
     );
     setFilteredUniversities(sortedUnis);
 
-    // Click outside handler
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setShowDropdown(false);
@@ -104,46 +90,75 @@ const WaitlistForm: React.FC = () => {
     setShowDropdown(false);
   };
 
+  const roleOptions: { value: UserRole; label: string; icon: React.ReactNode }[] = [
+    { value: 'Student', label: 'Student', icon: <User className="h-4 w-4" /> },
+    { value: 'Business', label: 'Business Professional', icon: <Briefcase className="h-4 w-4" /> },
+    { value: 'University', label: 'University Staff', icon: <Building2 className="h-4 w-4" /> }
+  ];
+
   return (
-    <section id="waitlist" className="relative min-h-screen w-full overflow-hidden flex items-center justify-center py-20 px-4">
-      <BackgroundGrid />
+    <section id="waitlist" className="relative min-h-screen w-full overflow-hidden flex items-center justify-center px-4 py-20">
+      <MinimalBackground />
       
-      <div className="container relative z-10 mx-auto max-w-lg">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <Card className="backdrop-blur-xl bg-white/80 border-slate-200/60 shadow-2xl shadow-indigo-500/10 p-8 sm:p-10 rounded-2xl overflow-hidden relative">
-            
-            {/* Top Decorative Line */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-indigo-500 via-purple-500 to-indigo-500" />
-
-            <AnimatePresence mode='wait'>
-              {!isSuccess ? (
+      <div className="container relative z-10 mx-auto max-w-[480px]">
+        <AnimatePresence mode='wait'>
+          {!isSuccess ? (
+            <motion.div
+              key="form"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {/* Header Section */}
+              <div className="text-center mb-10">
                 <motion.div
-                  key="form"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.1, duration: 0.5 }}
+                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100/60 border border-blue-200/60 text-blue-700 text-sm font-medium mb-6"
                 >
-                  <div className="text-center mb-8">
-                    <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight mb-3">
-                      Join the Waitlist
-                    </h2>
-                    <p className="text-slate-500 text-lg">
-                      Secure your spot for the next generation of academic collaboration.
-                    </p>
-                  </div>
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                  </span>
+                  Limited spots available
+                </motion.div>
+                
+                <motion.h1 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                  className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight mb-4 leading-tight"
+                >
+                  Join the Waitlist
+                </motion.h1>
+                
+                <motion.p 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                  className="text-lg text-slate-600 max-w-md mx-auto leading-relaxed"
+                >
+                  Be among the first to experience the future of academic collaboration
+                </motion.p>
+              </div>
 
-                  <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Form Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              >
+                <Card className="bg-white border-slate-200/60 p-8 md:p-10 rounded-3xl">
+                  <form onSubmit={handleSubmit} className="space-y-6">
                     
                     {/* Name Input */}
-                    <div className="space-y-1.5">
-                      <Label htmlFor="name" className="text-slate-700 font-medium">Full Name</Label>
-                      <div className="relative group">
-                        <User className="absolute left-3 top-3 h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+                    <div className="space-y-2.5">
+                      <Label htmlFor="name" className="text-sm font-semibold text-slate-700">
+                        Full Name
+                      </Label>
+                      <div className="relative">
                         <Input
                           type="text"
                           name="name"
@@ -151,17 +166,25 @@ const WaitlistForm: React.FC = () => {
                           required
                           value={formData.name}
                           onChange={handleChange}
-                          placeholder="Jane Doe"
-                          className="pl-10 h-11 bg-slate-50/50 border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-indigo-500/20 transition-all"
+                          onFocus={() => setActiveField('name')}
+                          onBlur={() => setActiveField(null)}
+                          placeholder="Enter your full name"
+                          className={cn(
+                            "h-12 px-4 bg-slate-50/50 border-2 rounded-xl transition-all duration-200",
+                            "placeholder:text-slate-400",
+                            "focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10",
+                            activeField === 'name' && "border-blue-500"
+                          )}
                         />
                       </div>
                     </div>
 
                     {/* Email Input */}
-                    <div className="space-y-1.5">
-                      <Label htmlFor="email" className="text-slate-700 font-medium">Work/University Email</Label>
-                      <div className="relative group">
-                        <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+                    <div className="space-y-2.5">
+                      <Label htmlFor="email" className="text-sm font-semibold text-slate-700">
+                        Email Address
+                      </Label>
+                      <div className="relative">
                         <Input
                           type="email"
                           name="email"
@@ -169,73 +192,136 @@ const WaitlistForm: React.FC = () => {
                           required
                           value={formData.email}
                           onChange={handleChange}
-                          placeholder="jane@university.ac.uk"
-                          className="pl-10 h-11 bg-slate-50/50 border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-indigo-500/20 transition-all"
+                          onFocus={() => setActiveField('email')}
+                          onBlur={() => setActiveField(null)}
+                          placeholder="you@university.edu"
+                          className={cn(
+                            "h-12 px-4 bg-slate-50/50 border-2 rounded-xl transition-all duration-200",
+                            "placeholder:text-slate-400",
+                            "focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10",
+                            activeField === 'email' && "border-blue-500"
+                          )}
                         />
+                      </div>
+                      <p className="text-xs text-slate-500 mt-1.5">
+                        Use your institutional email for priority access
+                      </p>
+                    </div>
+
+                    {/* Role Selection - Custom Radio Buttons */}
+                    <div className="space-y-2.5">
+                      <Label className="text-sm font-semibold text-slate-700">
+                        I am a...
+                      </Label>
+                      <div className="grid grid-cols-1 gap-2.5">
+                        {roleOptions.map((option) => (
+                          <label
+                            key={option.value}
+                            className={cn(
+                              "flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200",
+                              formData.role === option.value
+                                ? "border-blue-500 bg-blue-50/50"
+                                : "border-slate-200 bg-slate-50/30"
+                            )}
+                          >
+                            <input
+                              type="radio"
+                              name="role"
+                              value={option.value}
+                              checked={formData.role === option.value}
+                              onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value as UserRole }))}
+                              className="sr-only"
+                            />
+                            <div className={cn(
+                              "flex items-center justify-center h-5 w-5 rounded-full border-2 transition-all",
+                              formData.role === option.value
+                                ? "border-blue-500 bg-blue-500"
+                                : "border-slate-300"
+                            )}>
+                              {formData.role === option.value && (
+                                <motion.div
+                                  initial={{ scale: 0 }}
+                                  animate={{ scale: 1 }}
+                                  className="h-2 w-2 rounded-full bg-white"
+                                />
+                              )}
+                            </div>
+                            <span className={cn(
+                              "flex-1 text-sm font-medium transition-colors",
+                              formData.role === option.value
+                                ? "text-slate-900"
+                                : "text-slate-600"
+                            )}>
+                              {option.label}
+                            </span>
+                          </label>
+                        ))}
                       </div>
                     </div>
 
-                    {/* Role Select */}
-                    <div className="space-y-1.5">
-                      <Label htmlFor="role" className="text-slate-700 font-medium">I am a...</Label>
-                      <Select value={formData.role} onValueChange={(value) => setFormData(prev => ({ ...prev, role: value as UserRole }))}>
-                        <SelectTrigger id="role" className="h-11 bg-slate-50/50 border-slate-200 focus:ring-indigo-500/20">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Student">Student</SelectItem>
-                          <SelectItem value="Business">Business Professional</SelectItem>
-                          <SelectItem value="University">University Staff</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
                     {/* Dynamic Organization Input */}
-                    <div className="space-y-1.5" ref={dropdownRef}>
-                      <Label htmlFor="organization" className="text-slate-700 font-medium">
+                    <div className="space-y-2.5" ref={dropdownRef}>
+                      <Label htmlFor="organization" className="text-sm font-semibold text-slate-700">
                         {formData.role === 'Student' ? 'University' : 'Organization'}
                       </Label>
                       
                       {formData.role === 'Student' ? (
-                        <div className="relative group">
-                          <Building2 className="absolute left-3 top-3 h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+                        <div className="relative">
+                          <Search className="absolute left-4 top-3.5 h-4 w-4 text-slate-400 pointer-events-none" />
                           <Input
                             id="organization"
                             required
                             value={formData.organization}
                             onChange={handleOrganizationInputChange}
-                            onFocus={() => setShowDropdown(true)}
+                            onFocus={() => {
+                              setActiveField('organization');
+                              setShowDropdown(true);
+                            }}
+                            onBlur={() => setActiveField(null)}
                             placeholder="Search your university..."
-                            className="pl-10 h-11 bg-slate-50/50 border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-indigo-500/20 transition-all"
+                            className={cn(
+                              "h-12 pl-11 pr-4 bg-slate-50/50 border-2 rounded-xl transition-all duration-200",
+                              "placeholder:text-slate-400",
+                              "focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10",
+                              activeField === 'organization' && "border-blue-500"
+                            )}
                             autoComplete="off"
                           />
-                          <ChevronDown className={`absolute right-3 top-3.5 h-4 w-4 text-slate-400 transition-transform duration-200 ${showDropdown ? 'rotate-180' : ''}`} />
                           
                           <AnimatePresence>
                             {showDropdown && (
                               <motion.div
-                                initial={{ opacity: 0, y: 5, scale: 0.98 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, y: 5, scale: 0.98 }}
-                                className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-100 rounded-xl shadow-xl shadow-slate-200/50 z-50 max-h-60 overflow-y-auto"
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.2 }}
+                                className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-2xl shadow-2xl shadow-slate-900/10 z-50 max-h-64 overflow-y-auto"
                               >
                                 {filteredUniversities.length > 0 ? (
-                                  <div className="py-1">
-                                    {filteredUniversities.map((uni, index) => (
+                                  <div className="p-2">
+                                    {filteredUniversities.slice(0, 50).map((uni, index) => (
                                       <button
                                         key={index}
                                         type="button"
                                         onClick={() => handleSelectUniversity(uni)}
-                                        className="w-full text-left px-4 py-2.5 hover:bg-indigo-50 transition-colors flex items-center gap-2 group/item"
+                                        className="w-full text-left px-4 py-3 hover:bg-slate-50 rounded-lg transition-colors flex items-start gap-3 group"
                                       >
-                                        <div className="h-1.5 w-1.5 rounded-full bg-slate-300 group-hover/item:bg-indigo-500 transition-colors" />
-                                        <span className="text-sm text-slate-700 font-medium">{uni.name}</span>
+                                        <Building2 className="h-4 w-4 text-slate-400 group-hover:text-blue-500 transition-colors mt-0.5 flex-shrink-0" />
+                                        <div className="flex-1 min-w-0">
+                                          <div className="text-sm font-medium text-slate-900 truncate">
+                                            {uni.name}
+                                          </div>
+                                          <div className="text-xs text-slate-500 mt-0.5">
+                                            {uni.country}
+                                          </div>
+                                        </div>
                                       </button>
                                     ))}
                                   </div>
                                 ) : (
-                                  <div className="p-4 text-center text-slate-500 text-sm">
-                                    No universities found.
+                                  <div className="p-8 text-center">
+                                    <Search className="h-8 w-8 text-slate-300 mx-auto mb-2" />
+                                    <p className="text-sm text-slate-500">No universities found</p>
                                   </div>
                                 )}
                               </motion.div>
@@ -243,73 +329,99 @@ const WaitlistForm: React.FC = () => {
                           </AnimatePresence>
                         </div>
                       ) : (
-                        <div className="relative group">
-                          <Building2 className="absolute left-3 top-3 h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+                        <div className="relative">
                           <Input
                             name="organization"
                             id="organization"
                             required
                             value={formData.organization}
                             onChange={handleChange}
-                            placeholder="Company Name"
-                            className="pl-10 h-11 bg-slate-50/50 border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-indigo-500/20"
+                            onFocus={() => setActiveField('organization')}
+                            onBlur={() => setActiveField(null)}
+                            placeholder="Enter your organization name"
+                            className={cn(
+                              "h-12 px-4 bg-slate-50/50 border-2 rounded-xl transition-all duration-200",
+                              "placeholder:text-slate-400",
+                              "focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10",
+                              activeField === 'organization' && "border-blue-500"
+                            )}
                           />
                         </div>
                       )}
                     </div>
 
+                    {/* Submit Button */}
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full h-11 bg-indigo-600 hover:bg-indigo-700 text-white font-medium shadow-lg shadow-indigo-500/20 transition-all hover:scale-[1.01] active:scale-[0.99]"
+                      className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors"
                     >
                       {isSubmitting ? (
-                        <span className="flex items-center gap-2">
-                          <Loader2 className="animate-spin h-4 w-4" /> Joining the waitlist...
-                        </span>
+                      <span className="flex items-center justify-center gap-2">
+                        <Loader2 className="animate-spin h-4 w-4" />
+                        Securing your spot...
+                      </span>
                       ) : (
-                        <span className="flex items-center gap-2">
-                          Join Waitlist <ArrowRight className="h-4 w-4 opacity-50" />
-                        </span>
+                      "Reserve My Spot"
                       )}
                     </Button>
+
+                    {/* Trust Badge */}
+                    <div className="pt-4 flex items-center justify-center gap-2 text-xs text-slate-500">
+                      <Shield className="h-3.5 w-3.5" />
+                      <span>Your data is encrypted and secure</span>
+                    </div>
                   </form>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="success"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="text-center py-16 px-4"
+                </Card>
+              </motion.div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="success"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <Card className="bg-white border-slate-200/60 shadow-xl shadow-slate-900/5 p-12 md:p-16 rounded-3xl text-center">
+                <motion.div 
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.2 }}
+                  className="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-linear-to-br from-green-400 to-emerald-500 mb-8 relative"
                 >
-                  <motion.div 
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.1 }}
-                    className="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-50 mb-6 relative"
-                  >
-                     <div className="absolute inset-0 rounded-full bg-green-100 animate-ping opacity-20" />
-                    <CheckCircle2 className="h-10 w-10 text-green-600" />
-                  </motion.div>
-                  <h3 className="text-2xl font-bold text-slate-900 mb-2">You're on the list!</h3>
-                  <p className="text-slate-600 mb-8 max-w-xs mx-auto">
-                    Thanks for joining, <span className="font-semibold text-slate-900">{formData.name}</span>. We've sent a confirmation to your email.
-                  </p>
-                  <Button variant="outline" onClick={() => setIsSuccess(false)} className="text-sm">
-                    Register another person
-                  </Button>
+                  <CheckCircle2 className="h-10 w-10 text-white" strokeWidth={2.5} />
                 </motion.div>
-              )}
-            </AnimatePresence>
-            
-            <div className="mt-8 pt-6 border-t border-slate-100 text-center">
-               <p className="text-xs text-slate-400 flex items-center justify-center gap-2">
-                 <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                 Your privacy is important to us. All personal data is securely stored
-               </p>
-            </div>
-          </Card>
-        </motion.div>
+                
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <h3 className="text-3xl font-bold text-slate-900 mb-3">
+                  You're on the list!
+                  </h3>
+                  <p className="text-lg text-slate-600 mb-2">
+                  Welcome aboard, <span className="font-semibold text-slate-900">{formData.name}</span>
+                  </p>
+                  <p className="text-slate-500 max-w-sm mx-auto mb-8">
+                  We've sent a confirmation to <span className="font-medium text-slate-700">{formData.email}</span>. 
+                  Check your inbox for next steps.
+                  </p>
+                  
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <Button
+                    variant="outline"
+                    onClick={() => setIsSuccess(false)}
+                    className="h-11 px-6 rounded-xl border-2 border-slate-200 hover:bg-slate-50 font-medium"
+                  >
+                    Add another person
+                  </Button>
+                  </div>
+                </motion.div>
+              </Card>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );

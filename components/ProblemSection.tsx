@@ -44,7 +44,7 @@ const ProblemSection: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card className="p-8 hover:shadow-md transition-shadow">
+              <Card className="p-8">
                 <div className="bg-blue-50 w-14 h-14 rounded-lg flex items-center justify-center mb-6">
                   {item.icon}
                 </div>

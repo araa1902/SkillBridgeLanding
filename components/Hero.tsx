@@ -36,7 +36,7 @@ const Hero: React.FC<HeroProps> = ({ onScrollToWaitlist }) => {
               
               <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl mb-6">
                 Bridge the Gap Between <br className="hidden lg:block"/>
-                <span className="text-blue-600">Education</span> and <span className="text-slate-700">Employment</span>
+                <span className="text-slate-900">Education</span> and <span className="text-slate-700">Employment</span>
               </h1>
               
               <p className="text-lg text-slate-600 mb-8 leading-relaxed max-w-lg">
@@ -51,8 +51,8 @@ const Hero: React.FC<HeroProps> = ({ onScrollToWaitlist }) => {
                     onClick={() => setActiveRole(role)}
                     className={`px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 ${
                       activeRole === role
-                      ? 'bg-white text-blue-600 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-white text-blue-600'
+                      : 'text-slate-600'
                     }`}
                     >
                     I'm a {role}
@@ -92,9 +92,9 @@ const Hero: React.FC<HeroProps> = ({ onScrollToWaitlist }) => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="relative lg:pl-10"
           >
-            <div className="relative rounded-xl bg-slate-900/5 p-4 lg:p-6 ring-1 ring-inset ring-slate-900/10">
+            <div className="relative rounded-xl bg-white p-4 lg:p-6 border border-slate-200">
               {/* Abstract Dashboard UI */}
-              <div className="relative bg-white rounded-lg shadow-xl overflow-hidden border border-slate-200">
+              <div className="relative bg-white rounded-lg overflow-hidden border border-slate-200">
                 {/* Header */}
                 <div className="border-b border-slate-100 bg-slate-50 px-4 py-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -154,7 +154,7 @@ const Hero: React.FC<HeroProps> = ({ onScrollToWaitlist }) => {
               </div>
               
               {/* Floating Badge */}
-              <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-lg shadow-lg border border-slate-100 hidden sm:block">
+              <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-lg border border-slate-100 hidden sm:block">
                 <div className="flex items-center gap-3">
                     <div className="bg-blue-100 p-2 rounded-full">
                         <CheckCircle className="h-5 w-5 text-blue-600"/>
