@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChatDots } from '@phosphor-icons/react';
+import { GridPattern } from './ui/grid-pattern';
 
 interface CounterProps {
   end: number;
@@ -266,6 +267,19 @@ const ImpactSection: React.FC = () => {
 
   return (
     <section id="impact" className="relative py-16 lg:py-20 bg-black text-white overflow-hidden">
+      {/* Grid Pattern Background */}
+      <div className="absolute inset-0 -z-10 opacity-40">
+        <GridPattern 
+          className="absolute inset-0"
+          width={40}
+          height={40}
+          strokeDasharray="0"
+          x={0}
+          y={0}
+          strokeColor="rgb(107, 114, 128)"
+        />
+      </div>
+      
       {/* Gradient orbs */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob" />
       <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-2000" />

@@ -9,6 +9,7 @@ import ImpactSection from './components/ImpactSection';
 import WaitlistForm from './components/WaitlistForm';
 import Footer from './components/Footer';
 import PageTransition from './components/PageTransition';
+import { GridPattern } from './components/ui/grid-pattern';
 
 function App() {
   useEffect(() => {
@@ -25,7 +26,20 @@ function App() {
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-white text-slate-900 selection:bg-blue-100 selection:text-blue-900">
+      <div className="relative min-h-screen bg-white text-slate-900 selection:bg-blue-100 selection:text-blue-900">
+        {/* Grid Pattern Background */}
+        <div className="absolute inset-0 -z-10 pointer-events-none opacity-50">
+          <GridPattern 
+            className="absolute inset-0"
+            width={40}
+            height={40}
+            strokeDasharray="0"
+            x={0}
+            y={0}
+            strokeColor="rgb(30, 58, 138)"
+          />
+        </div>
+        
         <EnhancedNavbar onScrollToWaitlist={scrollToWaitlist} />
 
         <main>

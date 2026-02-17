@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
   ArrowRight, 
-  GraduationCap, 
-  Briefcase, 
-  Building2,
   ShieldCheck,
   CheckCircle,
-  Award
+  Award,
+  Cpu,
+  Fingerprint
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -16,90 +15,138 @@ interface EcosystemHeroProps {
 }
 
 const EcosystemHero: React.FC<EcosystemHeroProps> = ({ onScrollToWaitlist }) => {
-  const [hoveredNode, setHoveredNode] = useState<string | null>(null);
-
-
   return (
-    <section className="relative overflow-hidden bg-white pt-20 pb-16 lg:pt-28 lg:pb-24">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-40" />
+    <section className="relative overflow-hidden bg-[#FAFAFA] pt-24 pb-20 lg:pt-32 lg:pb-28 border-b border-slate-200 font-sans selection:bg-blue-200">
       
-      {/* Ambient Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[400px] bg-blue-100/50 rounded-full blur-3xl -z-10 opacity-60 pointer-events-none" />
+      {/* 1. Architectural Grid Background */}
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none opacity-[0.4]"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, #cbd5e1 1px, transparent 1px),
+            linear-gradient(to bottom, #cbd5e1 1px, transparent 1px)
+          `,
+          backgroundSize: '40px 40px',
+        }}
+      />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 2. Technical Corner Markers (Registration Marks) */}
+      <div className="absolute top-8 left-8 w-4 h-4 border-t-2 border-l-2 border-slate-400 z-0 hidden md:block" />
+      <div className="absolute top-8 right-8 w-4 h-4 border-t-2 border-r-2 border-slate-400 z-0 hidden md:block" />
+      <div className="absolute bottom-8 left-8 w-4 h-4 border-b-2 border-l-2 border-slate-400 z-0 hidden md:block" />
+      <div className="absolute bottom-8 right-8 w-4 h-4 border-b-2 border-r-2 border-slate-400 z-0 hidden md:block" />
+
+      {/* Floating Blueprint Metadata */}
+      <div className="absolute top-10 left-12 font-mono text-[10px] text-slate-400 tracking-widest hidden lg:block z-0">
+        SYS.REQ // V.1.0.4
+        <br />
+        COORD: 45.12°N, -1.24°W
+      </div>
+
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
         
-        {/* Main Header Content */}
-        <div className="text-center max-w-4xl mx-auto mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="inline-flex items-center rounded-full bg-slate-50 px-4 py-1.5 text-sm font-medium text-slate-700 mb-8 border border-slate-200 shadow-sm">
-              <span className="flex h-2 w-2 rounded-full bg-blue-600 mr-2 animate-pulse"></span>
-              Bridging the Education-Employment Gap
-            </div>
+        {/* Main Content Blueprint Box */}
+        <div className="relative bg-white/90 backdrop-blur-sm border border-slate-300 p-8 md:p-12 lg:p-16 shadow-sm">
+          
+          {/* Internal Corner Crosshairs */}
+          <div className="absolute top-4 left-4 text-slate-300 pointer-events-none">+</div>
+          <div className="absolute top-4 right-4 text-slate-300 pointer-events-none">+</div>
+          <div className="absolute bottom-4 left-4 text-slate-300 pointer-events-none">+</div>
+          <div className="absolute bottom-4 right-4 text-slate-300 pointer-events-none">+</div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 mb-6 leading-[1.1] font-display">
-              The University-Backed <br className="hidden md:block" />
-              <span className="text-blue-600 bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-display block mt-2">
-              Micro-Internship Platform
-              </span>
-            </h1>
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              {/* Technical Kicker */}
+              <div className="flex items-center gap-4 mb-8">
+                <div className="h-[1px] w-12 bg-blue-600" />
+                <span className="font-mono text-xs font-semibold tracking-[0.2em] text-blue-600 uppercase">
+                  Project Code: SkillBridge
+                </span>
+              </div>
 
-            <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed">
-              We connect ambitious students with growing SMEs through paid, structured, and verified micro-projects. No bidding wars. No unverified freelancers. 
-            </p>
+              {/* High-Contrast Academic Heading */}
+              <h1 className="text-4xl md:text-5xl lg:text-[4rem] font-bold tracking-tight text-slate-900 mb-8 leading-[1.05] font-display">
+                The University-Backed <br className="hidden md:block" />
+                <span className="bg-clip-text text-blue-600">
+                  Micro-Internship Platform.
+                </span>
+              </h1>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button
-                onClick={onScrollToWaitlist}
-                size="lg"
-                className="w-full sm:w-auto text-base px-8 h-14 bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/20 transition-all hover:-translate-y-0.5"
-              >
-                Join the Waitlist
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="w-full sm:w-auto text-base px-8 h-14 border-slate-200 hover:bg-slate-50 text-slate-700"
-                onClick={() => {
-                  const element = document.getElementById('how-it-works');
-                  if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
-              >
-                How it Works
-              </Button>
-            </div>
-          </motion.div>
+              {/* Structured Description */}
+              <p className="text-lg md:text-xl text-slate-600 max-w-2xl mb-12 leading-relaxed border-l-2 border-slate-200 pl-6">
+                We connect ambitious students with growing SMEs through paid, structured, and verified micro-projects. No bidding wars. No unverified freelancers. 
+              </p>
+
+              {/* Rigid Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button
+                  onClick={onScrollToWaitlist}
+                  size="lg"
+                  className="rounded-none w-full sm:w-auto text-sm font-mono tracking-wide px-8 h-14 bg-blue-600 hover:bg-blue-700 text-white shadow-none transition-colors"
+                >
+                  [ JOIN THE WAITLIST ]
+                  <ArrowRight className="ml-3 h-4 w-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="rounded-none w-full sm:w-auto text-sm font-mono tracking-wide px-8 h-14 border-slate-300 hover:bg-slate-100 text-slate-700"
+                  onClick={() => {
+                    const element = document.getElementById('how-it-works');
+                    if (element) {
+                      // Calculate offset to account for fixed headers if any
+                      const yOffset = -80;
+                      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                      window.scrollTo({ top: y, behavior: 'smooth' });
+                    }
+                  }}
+                >
+                  [ HOW IT WORKS ]
+                </Button>
+              </div>
+            </motion.div>
+          </div>
         </div>
 
-        {/* Bottom Trust Bar */}
+        {/* Blueprint Specifications Bar (Formerly Trust Bar) */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-20 max-w-4xl mx-auto"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+          className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-0 border border-slate-300 bg-white/90 backdrop-blur-sm relative"
         >
-          <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 py-8 border-y border-slate-100 bg-slate-50/50 rounded-3xl">
-            <div className="flex items-center gap-3">
-              <ShieldCheck className="w-5 h-5 text-blue-600" />
-              <span className="text-sm font-semibold text-slate-700">University Verified</span>
+          {/* Spec 1 */}
+          <div className="flex flex-col p-6 border-b md:border-b-0 md:border-r border-slate-300 group hover:bg-slate-50 transition-colors">
+            <div className="flex items-center justify-between mb-4">
+              <ShieldCheck className="w-5 h-5 text-blue-600" strokeWidth={1.5} />
+              <span className="font-mono text-[10px] text-slate-400">SPEC.01</span>
             </div>
-            <div className="hidden md:block w-1.5 h-1.5 rounded-full bg-slate-300" />
-            <div className="flex items-center gap-3">
-              <CheckCircle className="w-5 h-5 text-blue-600" />
-              <span className="text-sm font-semibold text-slate-700">Escrow Protected</span>
+            <span className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-1">University Verified</span>
+            <span className="text-xs text-slate-500 font-mono">Institutional-grade vetting</span>
+          </div>
+
+          {/* Spec 2 */}
+          <div className="flex flex-col p-6 border-b md:border-b-0 md:border-r border-slate-300 group hover:bg-slate-50 transition-colors">
+            <div className="flex items-center justify-between mb-4">
+              <CheckCircle className="w-5 h-5 text-blue-600" strokeWidth={1.5} />
+              <span className="font-mono text-[10px] text-slate-400">SPEC.02</span>
             </div>
-            <div className="hidden md:block w-1.5 h-1.5 rounded-full bg-slate-300" />
-            <div className="flex items-center gap-3">
-              <Award className="w-5 h-5 text-blue-600" />
-              <span className="text-sm font-semibold text-slate-700">Micro-Credentials</span>
+            <span className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-1">Escrow Protected</span>
+            <span className="text-xs text-slate-500 font-mono">Secure transactional layer</span>
+          </div>
+
+          {/* Spec 3 */}
+          <div className="flex flex-col p-6 group hover:bg-slate-50 transition-colors">
+            <div className="flex items-center justify-between mb-4">
+              <Award className="w-5 h-5 text-blue-600" strokeWidth={1.5} />
+              <span className="font-mono text-[10px] text-slate-400">SPEC.03</span>
             </div>
+            <span className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-1">Micro-Credentials</span>
+            <span className="text-xs text-slate-500 font-mono">Verifiable blockchain ledger</span>
           </div>
         </motion.div>
 
