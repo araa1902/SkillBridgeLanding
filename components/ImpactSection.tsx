@@ -166,9 +166,6 @@ const TestimonialConveyor: React.FC = () => {
                 "{testimonial.quote}"
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold text-xs shrink-0">
-                  {testimonial.name.split(' ').map(n => n[0]).join('')}
-                </div>
                 <div>
                   <p className="font-semibold text-white text-sm leading-tight">{testimonial.name}</p>
                   <p className="text-slate-400 text-xs mt-0.5">{testimonial.role}</p>
@@ -231,14 +228,9 @@ const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testimonials 
               <p className="text-sm md:text-base text-slate-200 mb-6 leading-relaxed font-light">
                 "{testimonial.quote}"
               </p>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold text-xs shrink-0">
-                  {testimonial.name.split(' ').map(n => n[0]).join('')}
-                </div>
-                <div>
-                  <p className="font-semibold text-white text-sm leading-tight">{testimonial.name}</p>
-                  <p className="text-slate-400 text-xs mt-0.5">{testimonial.role}</p>
-                </div>
+              <div>
+                <p className="font-semibold text-white text-sm leading-tight">{testimonial.name}</p>
+                <p className="text-slate-400 text-xs mt-0.5">{testimonial.role}</p>
               </div>
             </motion.div>
           ))}

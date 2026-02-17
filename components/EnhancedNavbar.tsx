@@ -63,16 +63,14 @@ const ResizableNavbar: React.FC<ResizableNavbarProps> = ({ onScrollToWaitlist })
             </motion.div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-8">
+            <nav className="hidden md:flex items-center gap-1">
               {NAV_LINKS.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors relative group py-2"
+                  className="text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-200 px-3 py-2 rounded-full transition-all duration-200 ease-out"
                 >
                   {link.name}
-                  {/* Modern SaaS Underline Animation */}
-                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-600 rounded-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
                 </a>
               ))}
             </nav>
@@ -141,7 +139,7 @@ const ResizableNavbar: React.FC<ResizableNavbarProps> = ({ onScrollToWaitlist })
       </header>
 
       {/* Spacer to prevent content jump - matches the unscrolled navbar height */}
-      <div className="h-[88px]" />
+      <div className="h-22" />
     </>
   );
 };
