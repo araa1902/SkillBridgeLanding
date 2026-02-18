@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { name: 'How It Works', href: '#how-it-works' },
   { name: 'Features', href: '#features' },
   { name: 'Impact', href: '#impact' },
+  { name: 'About Us', href: '#about' },
 ];
 
 const ResizableNavbar: React.FC<ResizableNavbarProps> = ({ onScrollToWaitlist }) => {

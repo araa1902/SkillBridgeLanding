@@ -9,7 +9,8 @@ import {
   Mail, 
   Briefcase,
   Search,
-  Shield
+  Shield,
+  Check
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,7 +21,6 @@ import { universities } from '@/src/universities-data';
 
 interface University {
   name: string;
-  country: string;
 }
 
 // Minimalist background
@@ -40,6 +40,7 @@ const WaitlistForm: React.FC = () => {
   const [filteredUniversities, setFilteredUniversities] = useState<University[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [activeField, setActiveField] = useState<string | null>(null);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -112,18 +113,6 @@ const WaitlistForm: React.FC = () => {
             >
               {/* Header Section */}
               <div className="text-center mb-10">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.1, duration: 0.5 }}
-                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100/60 border border-blue-200/60 text-blue-700 text-sm font-medium mb-6"
-                >
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-                  </span>
-                  Limited spots available
-                </motion.div>
                 
                 <motion.h1 
                   initial={{ opacity: 0, y: 20 }}
@@ -306,13 +295,9 @@ const WaitlistForm: React.FC = () => {
                                         onClick={() => handleSelectUniversity(uni)}
                                         className="w-full text-left px-4 py-3 hover:bg-slate-50 rounded-lg transition-colors flex items-start gap-3 group"
                                       >
-                                        <Building2 className="h-4 w-4 text-slate-400 group-hover:text-blue-500 transition-colors mt-0.5 flex-shrink-0" />
                                         <div className="flex-1 min-w-0">
                                           <div className="text-sm font-medium text-slate-900 truncate">
                                             {uni.name}
-                                          </div>
-                                          <div className="text-xs text-slate-500 mt-0.5">
-                                            {uni.country}
                                           </div>
                                         </div>
                                       </button>
@@ -350,11 +335,47 @@ const WaitlistForm: React.FC = () => {
                       )}
                     </div>
 
+                    {/* Terms & Privacy Agreement */}
+                    <div className="space-y-3 pt-2">
+                      <label className="flex items-start gap-3 cursor-pointer group">
+                        <input
+                          type="checkbox"
+                          checked={acceptedTerms}
+                          onChange={(e) => setAcceptedTerms(e.target.checked)}
+                          className="sr-only"
+                        />
+                        <div className="shrink-0 mt-1">
+                          <div className={cn(
+                            "flex items-center justify-center h-5 w-5 rounded-lg border-2 transition-all duration-200",
+                            acceptedTerms
+                              ? "border-blue-500 bg-blue-500"
+                              : "border-slate-300 bg-white group-hover:border-slate-400"
+                          )}>
+                            {acceptedTerms && (
+                              <Check className="h-3 w-3 text-white" strokeWidth={3} />
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-sm text-slate-600">
+                            I agree to the{' '}
+                            <a href="/privacy" className="font-semibold text-blue-600 hover:text-blue-700 underline transition-colors">
+                              Privacy Policy
+                            </a>{' '}
+                            and{' '}
+                            <a href="/terms" className="font-semibold text-blue-600 hover:text-blue-700 underline transition-colors">
+                              Terms of Service
+                            </a>
+                          </span>
+                        </div>
+                      </label>
+                    </div>
+
                     {/* Submit Button */}
                     <Button
                       type="submit"
-                      disabled={isSubmitting}
-                      className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors"
+                      disabled={isSubmitting || !acceptedTerms}
+                      className="w-full h-12 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-colors"
                     >
                       {isSubmitting ? (
                       <span className="flex items-center justify-center gap-2">
