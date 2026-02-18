@@ -325,9 +325,6 @@ const ProblemSlider: React.FC = () => {
                         <h3 className="text-sm font-bold uppercase tracking-wide text-slate-900">
                           {current.problem.title}
                         </h3>
-                        <span className="text-xs font-semibold text-slate-500 bg-slate-200/50 px-2 py-1 rounded-md">
-                          What’s broken
-                        </span>
                       </div>
                       <p className="text-slate-600 leading-relaxed mb-6">
                         {current.problem.description}
@@ -352,9 +349,6 @@ const ProblemSlider: React.FC = () => {
                         <h3 className="text-sm font-bold uppercase tracking-wide text-slate-900">
                           {current.solution.title}
                         </h3>
-                        <span className="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-1 rounded-md">
-                          What you get
-                        </span>
                       </div>
                       <p className="text-slate-600 leading-relaxed mb-6">
                         {current.solution.description}

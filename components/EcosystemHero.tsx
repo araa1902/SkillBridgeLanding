@@ -51,21 +51,34 @@ const EcosystemHero: React.FC<EcosystemHeroProps> = ({ onScrollToWaitlist }) => 
           {/* Academic Sketches - Floating Elements */}
           
           {/* Math Equation - Top Left */}
-          <div className="absolute -left-28 top-8 w-40 hidden lg:block opacity-50 hover:opacity-70 transition-opacity pointer-events-none">
+            {/* Math Equation - Top Left */}
+            <div className="absolute -left-28 top-8 w-40 hidden lg:block opacity-50 hover:opacity-70 transition-opacity pointer-events-none">
             <motion.div
               animate={{ y: [0, -20, 0], rotate: [0, 2, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
-              <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
-                <text x="10" y="30" fontSize="28" fill="#3b82f6" opacity="1" fontFamily="serif" fontWeight="bold">∫</text>
-                <text x="45" y="30" fontSize="20" fill="#3b82f6" opacity="0.9" fontFamily="serif" fontWeight="600">f(x)dx</text>
-                <line x1="10" y1="50" x2="180" y2="50" stroke="#3b82f6" strokeWidth="2" opacity="0.7" />
-                <text x="10" y="80" fontSize="18" fill="#3b82f6" opacity="0.8" fontFamily="serif" fontWeight="bold">∞</text>
-                <line x1="40" y1="55" x2="40" y2="95" stroke="#3b82f6" strokeWidth="2" opacity="0.6" />
-                <path d="M 80 40 Q 100 20 120 40" stroke="#3b82f6" strokeWidth="2" opacity="0.6" fill="none" />
+              <svg viewBox="0 0 160 140" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
+                {/* E = mc² equation */}
+                {/* E */}
+                <text x="8" y="42" fontSize="32" fill="#3b82f6" opacity="1" fontFamily="serif" fontWeight="bold">E</text>
+                
+                {/* = sign */}
+                <text x="42" y="42" fontSize="28" fill="#3b82f6" opacity="0.9" fontFamily="serif" fontWeight="600">=</text>
+                
+                {/* m */}
+                <text x="70" y="42" fontSize="32" fill="#3b82f6" opacity="1" fontFamily="serif" fontWeight="bold">m</text>
+                
+                {/* c */}
+                <text x="98" y="42" fontSize="32" fill="#3b82f6" opacity="1" fontFamily="serif" fontWeight="bold">c</text>
+                
+                {/* superscript 2 */}
+                <text x="115" y="28" fontSize="18" fill="#3b82f6" opacity="0.9" fontFamily="serif" fontWeight="600">²</text>
+                
+                {/* Decorative underline */}
+                <line x1="8" y1="60" x2="135" y2="60" stroke="#3b82f6" strokeWidth="1.5" opacity="0.4" />
               </svg>
             </motion.div>
-          </div>
+            </div>
 
           {/* Geography Map - Bottom Left */}
           <div className="absolute -left-24 -bottom-12 w-36 hidden lg:block opacity-45 hover:opacity-65 transition-opacity pointer-events-none">
@@ -231,7 +244,6 @@ const EcosystemHero: React.FC<EcosystemHeroProps> = ({ onScrollToWaitlist }) => 
           <div className="flex flex-col p-6 border-b md:border-b-0 md:border-r border-slate-300 group hover:bg-slate-50 transition-colors">
             <div className="flex items-center justify-between mb-4">
               <ShieldCheck className="w-5 h-5 text-blue-600" strokeWidth={1.5} />
-              <span className="font-mono text-[10px] text-slate-400">SPEC.01</span>
             </div>
             <span className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-1">University Verified</span>
             <span className="text-xs text-slate-500 font-medium">Institutional-grade vetting</span>
@@ -241,7 +253,6 @@ const EcosystemHero: React.FC<EcosystemHeroProps> = ({ onScrollToWaitlist }) => 
           <div className="flex flex-col p-6 border-b md:border-b-0 md:border-r border-slate-300 group hover:bg-slate-50 transition-colors">
             <div className="flex items-center justify-between mb-4">
               <CheckCircle className="w-5 h-5 text-blue-600" strokeWidth={1.5} />
-              <span className="font-mono text-[10px] text-slate-400">SPEC.02</span>
             </div>
             <span className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-1">Escrow Protected</span>
             <span className="text-xs text-slate-500 font-medium">Secure transactional layer</span>
@@ -251,7 +262,6 @@ const EcosystemHero: React.FC<EcosystemHeroProps> = ({ onScrollToWaitlist }) => 
           <div className="flex flex-col p-6 group hover:bg-slate-50 transition-colors">
             <div className="flex items-center justify-between mb-4">
               <Award className="w-5 h-5 text-blue-600" strokeWidth={1.5} />
-              <span className="font-mono text-[10px] text-slate-400">SPEC.03</span>
             </div>
             <span className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-1">Micro-Credentials</span>
             <span className="text-xs text-slate-500 font-medium">Verifiable blockchain ledger</span>

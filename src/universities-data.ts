@@ -2,121 +2,32 @@ export interface University {
   name: string;
 }
 
-export const universities: University[] = [
-  { name: "University of Oxford" },
-  { name: "University of Cambridge" },
-  { name: "Imperial College London" },
-  { name: "University College London (UCL)" },
-  { name: "University of Bath" },
-  { name: "Bath Spa University" },
-  { name: "University of Bristol" },
-  { name: "University of Exeter" },
-  { name: "University of Birmingham" },
-  { name: "University of Manchester" },
-  { name: "University of Edinburgh" },
-  { name: "University of Glasgow" },
-  { name: "University of St Andrews" },
-  { name: "Queen's University Belfast" },
-  { name: "Ulster University" },
-  { name: "Cardiff University" },
-  { name: "Aberystwyth University" },
-  { name: "Durham University" },
-  { name: "Newcastle University" },
-  { name: "University of Leeds" },
-  { name: "University of Sheffield" },
-  { name: "University of Nottingham" },
-  { name: "University of Warwick" },
-  { name: "University of Southampton" },
-  { name: "University of Reading" },
-  { name: "University of Sussex" },
-  { name: "University of Kent" },
-  { name: "Lancaster University" },
-  { name: "University of Liverpool" },
-  { name: "Loughborough University" },
-  { name: "University of Surrey" },
-  { name: "University of York" },
-  { name: "University of East Anglia (UEA)" },
-  { name: "University of Leicester" },
-  { name: "University of Strathclyde" },
-  { name: "University of Aberdeen" },
-  { name: "Swansea University" },
-  { name: "University of Dundee" },
-  { name: "Heriot-Watt University" },
-  { name: "Queen Mary University of London" },
-  { name: "King's College London" },
-  { name: "London School of Economics (LSE)" },
-  { name: "University of Stirling" },
-  { name: "University of Plymouth" },
-  { name: "University of Portsmouth" },
-  { name: "University of Hull" },
-  { name: "University of Lincoln" },
-  { name: "University of Central Lancashire (UCLan)" },
-  { name: "Manchester Metropolitan University" },
-  { name: "University of Salford" },
-  { name: "Liverpool John Moores University" },
-  { name: "Sheffield Hallam University" },
-  { name: "Leeds Beckett University" },
-  { name: "Northumbria University" },
-  { name: "Teesside University" },
-  { name: "University of Bradford" },
-  { name: "University of Huddersfield" },
-  { name: "Aston University" },
-  { name: "Coventry University" },
-  { name: "De Montfort University" },
-  { name: "University of Derby" },
-  { name: "University of Hertfordshire" },
-  { name: "University of Northampton" },
-  { name: "University of Wolverhampton" },
-  { name: "Anglia Ruskin University" },
-  { name: "University of Bedfordshire" },
-  { name: "University of Brighton" },
-  { name: "Canterbury Christ Church University" },
-  { name: "University of Greenwich" },
-  { name: "University of Roehampton" },
-  { name: "University of Westminster" },
-  { name: "University of East London" },
-  { name: "Middlesex University" },
-  { name: "Kingston University" },
-  { name: "London South Bank University" },
-  { name: "City, University of London" },
-  { name: "Birkbeck, University of London" },
-  { name: "Goldsmiths, University of London" },
-  { name: "SOAS University of London" },
-  { name: "Royal Holloway, University of London" },
-  { name: "Brunel University London" },
-  { name: "University of the Arts London" },
-  { name: "Falmouth University" },
-  { name: "University of Gloucestershire" },
-  { name: "Royal Agricultural University" },
-  { name: "Bournemouth University" },
-  { name: "Plymouth Marjon University" },
-  { name: "University of Winchester" },
-  { name: "Solent University" },
-  { name: "University of Chichester" },
-  { name: "Buckinghamshire New University" },
-  { name: "University of Buckingham" },
-  { name: "Oxford Brookes University" },
-  { name: "University of West London" },
-  { name: "University of Bolton" },
-  { name: "University of Chester" },
-  { name: "University of Cumbria" },
-  { name: "Edge Hill University" },
-  { name: "Liverpool Hope University" },
-  { name: "York St John University" },
-  { name: "Harper Adams University" },
-  { name: "University of Worcester" },
-  { name: "Staffordshire University" },
-  { name: "Keele University" },
-  { name: "Bangor University" },
-  { name: "University of South Wales" },
-  { name: "University of Wales Trinity Saint David" },
-  { name: "Cardiff Metropolitan University" },
-  { name: "Abertay University" },
-  { name: "Glasgow Caledonian University" },
-  { name: "Edinburgh Napier University" },
-  { name: "Queen Margaret University" },
-  { name: "Robert Gordon University" },
-  { name: "University of the West of Scotland" },
-  { name: "University of the Highlands and Islands" },
-  { name: "University of the West of England (UWE Bristol)" },
-];
+// Parse CSV and extract organisations
+function parseUniversitiesFromCSV(csvContent: string): University[] {
+  return csvContent
+    .split("\n")
+    .slice(1) // Skip header row
+    .filter((line: string) => line.trim())
+    .map((line: string) => {
+      const [organisation] = line.split(",");
+      return { name: organisation.trim() };
+    });
+}
+
+let universities: University[] = [];
+
+// Fetch and parse CSV on load
+async function loadUniversities() {
+  try {
+    const response = await fetch("/universities.csv");
+    const csvContent = await response.text();
+    universities = parseUniversitiesFromCSV(csvContent);
+  } catch (error) {
+    console.error("Failed to load universities from CSV:", error);
+  }
+}
+
+// Load universities on import
+loadUniversities();
+
+export { universities };
