@@ -1,314 +1,196 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { ChatDots } from '@phosphor-icons/react';
-import { GridPattern } from './ui/grid-pattern';
+import {
+  TrendingUp,
+  Briefcase,
+  Users,
+  MessageSquareQuote,
+} from 'lucide-react';
+import {
+  BriefcaseIcon,
+  BuildingApartmentIcon,
+  GraduationCapIcon,
+  TrendUpIcon,
+  UsersFourIcon,
+} from '@phosphor-icons/react';
 
-interface CounterProps {
-  end: number;
-  label: string;
-  suffix?: string;
-  duration?: number;
-}
+// ─── Data ────────────────────────────────────────────────────────────────────
 
-interface Testimonial {
-  quote: string;
-  name: string;
-  role: string;
-}
-
-const testimonials: Testimonial[] = [
-  // --- Original 5 ---
+const marketStats = [
   {
-    quote: "SkillBridge isn't just a marketplace - it's a movement. We're creating pathways for talented students to prove themselves, enabling businesses to find reliable talent, and helping universities deliver on their mission.",
-    name: "Aravind Kumar",
-    role: "Co-Founder, SkillBridge",
+    metric: '72%',
+    title: 'Workplace Readiness',
+    description:
+      'Candidates with hands-on project experience demonstrate stronger skills and better professional attitudes.',
+    source: 'Institute of Student Employers',
+    icon: TrendUpIcon,
+    color: 'text-blue-400',
   },
   {
-    quote: "I was stuck in the 'no experience, no job' loop. SkillBridge gave me the chance to build a real portfolio with paid micro-projects. I actually had verifiable work to show in my graduate interviews.",
-    name: "Sarah Thompson",
-    role: "BSc Business Management Student",
+    metric: '61%',
+    title: 'Flexible Resourcing',
+    description:
+      'More than half of SMBs rely on external talent for digital, design, and administrative workloads.',
+    source: 'UK Market Insights 2025',
+    icon: BriefcaseIcon,
+    color: 'text-emerald-400',
   },
   {
-    quote: "Finding reliable, short-term talent used to be a gamble. With SkillBridge, we get verified university students who bring fresh perspectives to our campaigns, without the overhead of a full-time hire.",
-    name: "Rajesh Kumar",
-    role: "Marketing Director, TechStart Ltd",
+    metric: '50%+',
+    title: 'The Experience Gap',
+    description:
+      'Students struggle to access career-building opportunities due to competition and geographic barriers.',
+    source: 'Higher Education Research',
+    icon: UsersFourIcon,
+    color: 'text-amber-400',
   },
-  {
-    quote: "A highly scalable solution to the employability challenge. It gives our students verifiable, real-world experience that directly impacts our TEF metrics and graduate outcome reporting.",
-    name: "Dr. Emma Davies",
-    role: "Head of Careers, University Partner",
-  },
-  {
-    quote: "The structured briefs and escrow payments make hiring students completely risk-free. It's the perfect way to get high-quality help on our short-term development sprints while supporting local talent.",
-    name: "Marcus Chen",
-    role: "Founder, FinTech Innovators",
-  },
-  
-  // --- 8 New Additions ---
-  {
-    quote: "Living outside of major tech hubs meant missing out on top internships. SkillBridge's remote micro-projects let me work with great startups from my dorm room, completely leveling the playing field.",
-    name: "James O'Connor",
-    role: "BSc Computer Science Student",
-  },
-  {
-    quote: "We initially used SkillBridge for a 20-hour data cleanup sprint. The student was so impressive we ended up hiring her full-time after graduation. It's the ultimate low-risk talent pipeline.",
-    name: "Elena Rostova",
-    role: "CEO, DataFlow Analytics",
-  },
-  {
-    quote: "We built the AI matching engine to look beyond just grades. It connects students to projects based on actual demonstrable skills and career aspirations, creating perfect fits for SMEs.",
-    name: "Varatt Saengsiripongpun",
-    role: "Co-Founder & Tech Lead, SkillBridge",
-  },
-  {
-    quote: "The analytics dashboard is a game-changer. Seeing real-time data on which digital skills local employers are actually demanding allows us to adapt our curriculum proactively.",
-    name: "Prof. David Vance",
-    role: "Director of Student Experience",
-  },
-  {
-    quote: "The co-branded digital badges I earned on SkillBridge completely transformed my LinkedIn profile. Employers finally saw proof of my skills, not just a list of university modules.",
-    name: "Priya Patel",
-    role: "BA Graphic Design Graduate",
-  },
-  {
-    quote: "As a small business owner, I don't have time to sift through hundreds of CVs. SkillBridge's AI matching connected me with the exact web development student I needed in under 24 hours.",
-    name: "Tom Higgins",
-    role: "Owner, LocalRoast Coffee",
-  },
-  {
-    quote: "Balancing final year studies with work is tough. The 10-hour project sprints on SkillBridge let me earn money and relevant experience without sacrificing my grades.",
-    name: "Liam Davies",
-    role: "MSc Data Science Student",
-  },
-  {
-    quote: "Traditional placement years only reach a fraction of our cohort. SkillBridge allows us to offer structured, work-integrated learning to thousands of students simultaneously without the massive admin burden.",
-    name: "Sarah Jenkins",
-    role: "Employability Programme Manager",
-  }
 ];
 
-const AnimatedCounter: React.FC<CounterProps> = ({
-  end,
-  label,
-  suffix = '',
-  duration = 2,
-}) => {
-  const [count, setCount] = useState(0);
+const prototypeFeedback = [
+  {
+    quote:
+      'The application status timeline eliminates the "black-hole" of applying. It provides constant assurance throughout.',
+    role: 'Student Tester',
+    category: 'Undergraduate User',
+    Icon: GraduationCapIcon,
+    accent: 'text-blue-400',
+    dot: 'bg-blue-400',
+  },
+  {
+    quote:
+      "I wouldn't know what a fair budget or duration is. The pre-built templates completely solve that friction for me.",
+    role: 'SME Tester',
+    category: 'Hiring Manager View',
+    Icon: BriefcaseIcon,
+    accent: 'text-emerald-400',
+    dot: 'bg-emerald-400',
+  },
+  {
+    quote:
+      'We need patterns, not individual stories. Seeing skill demand trends lets us proactively adapt our curriculum.',
+    role: 'University Admin',
+    category: 'Institutional View',
+    Icon: BuildingApartmentIcon,
+    accent: 'text-amber-400',
+    dot: 'bg-amber-400',
+  },
+];
 
-  useEffect(() => {
-    let startTime: number;
-    let animationFrame: number;
+// ─── Variants ────────────────────────────────────────────────────────────────
 
-    const animate = (currentTime: number) => {
-      if (!startTime) startTime = currentTime;
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / (duration * 1000), 1);
-      setCount(Math.floor(progress * end));
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 16 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.45, delay },
+});
 
-      if (progress < 1) {
-        animationFrame = requestAnimationFrame(animate);
-      }
-    };
-
-    animationFrame = requestAnimationFrame(animate);
-
-    return () => cancelAnimationFrame(animationFrame);
-  }, [end, duration]);
-
-  return (
-      <div className="text-center">
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="text-5xl md:text-6xl font-bold text-white mb-2"
-      >
-        {count.toLocaleString()}
-        {suffix}
-      </motion.div>
-      <p className="text-slate-400 text-base">{label}</p>
-    </div>
-  );
-};
-
-const TestimonialConveyor: React.FC = () => {
-  // Duplicating the array ensures a seamless, infinite loop
-  const duplicatedTestimonials = [...testimonials, ...testimonials];
-
-  return (
-    <section className="py-24 overflow-hidden bg-black text-white">
-      <div className="container mx-auto px-4 mb-12 text-center">
-        <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-          Trusted across the Ecosystem
-        </h2>
-        <p className="mt-4 text-lg text-slate-300">
-          Hear from the students, businesses, and universities building the future of work.
-        </p>
-      </div>
-
-      {/* The mask-image property creates the smooth fade-out blur effect on the left and right edges */}
-      <div className="relative w-full overflow-hidden mask-[linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
-        <motion.div
-          className="flex gap-6 w-max py-4"
-          animate={{ x: ["-50%", "0%"] }}
-          transition={{
-            repeat: Infinity,
-            ease: "linear",
-            duration: 40,
-          }}
-        >
-          {duplicatedTestimonials.map((testimonial, idx) => (
-            <div
-              key={idx}
-              className="w-100 md:w-100 shrink-0 bg-white/5 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/8 transition-colors duration-300"
-            >
-              <p className="text-sm md:text-base text-slate-200 mb-6 leading-relaxed font-light">
-                "{testimonial.quote}"
-              </p>
-              <div className="flex items-center gap-3">
-                <div>
-                  <p className="font-semibold text-white text-sm leading-tight">{testimonial.name}</p>
-                  <p className="text-slate-400 text-xs mt-0.5">{testimonial.role}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-interface TestimonialCarouselProps {
-  testimonials: Testimonial[];
-}
-
-const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testimonials }) => {
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
-  const duplicatedTestimonials = [...testimonials, ...testimonials, ...testimonials];
-
-  return (
-    <div className="mt-20">
-      <div className="text-center mb-12">
-        <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
-          Trusted across the Ecosystem
-        </h3>
-        <p className="text-slate-300 text-lg">
-          Hear from the students, businesses, and universities building the future of work.
-        </p>
-      </div>
-
-      {/* The mask-image property creates the smooth fade-out blur effect on the left and right edges */}
-      <div 
-        className="relative w-full overflow-hidden mask-[linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]"
-        onMouseLeave={() => setHoveredIdx(null)}
-      >
-        <motion.div
-          className="flex gap-6 w-max py-4"
-          animate={{ x: ["-66.66%", "0%"] }}
-          transition={{
-            repeat: Infinity,
-            ease: "linear",
-            duration: hoveredIdx !== null ? 300 : 180,
-          }}
-        >
-          {duplicatedTestimonials.map((testimonial, idx) => (
-            <motion.div
-              key={idx}
-              onMouseEnter={() => setHoveredIdx(idx)}
-              onMouseLeave={() => setHoveredIdx(null)}
-              animate={{
-                opacity: hoveredIdx !== null && idx !== hoveredIdx ? 0.4 : 1,
-              }}
-              transition={{
-                opacity: { duration: 0.3 },
-              }}
-              className="w-[320px] md:w-100 shrink-0 bg-white/5 border border-white/10 rounded-xl p-6 flex flex-col justify-between hover:bg-white/8 transition-colors duration-300 cursor-pointer"
-            >
-              <p className="text-sm md:text-base text-slate-200 mb-6 leading-relaxed font-light">
-                "{testimonial.quote}"
-              </p>
-              <div>
-                <p className="font-semibold text-white text-sm leading-tight">{testimonial.name}</p>
-                <p className="text-slate-400 text-xs mt-0.5">{testimonial.role}</p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </div>
-  );
-};
+// ─── Component ───────────────────────────────────────────────────────────────
 
 const ImpactSection: React.FC = () => {
-  const metrics = [
-    {
-      end: 2500,
-      label: 'Students Onboarded',
-      suffix: '+',
-    },
-    {
-      end: 450000,
-      label: 'Total Earnings Generated',
-      suffix: '',
-    },
-    {
-      end: 350,
-      label: 'Businesses Partnered',
-      suffix: '+',
-    },
-    {
-      end: 45,
-      label: 'Universities Connected',
-      suffix: '+',
-    },
-  ];
-
   return (
-    <section id="impact" className="relative py-16 lg:py-20 bg-black text-white overflow-hidden">
-      {/* Grid Pattern Background */}
-      <div className="absolute inset-0 -z-10 opacity-40">
-        <GridPattern 
-          className="absolute inset-0"
-          width={40}
-          height={40}
-          strokeDasharray="0"
-          x={0}
-          y={0}
-          strokeColor="rgb(107, 114, 128)"
-        />
-      </div>
-      
-      {/* Gradient orbs */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob" />
-      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-2000" />
-      <div className="absolute -bottom-8 left-20 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-4000" />
+    <section className="relative py-20 lg:py-28 bg-slate-900 overflow-hidden">
+      {/* Ambient glows */}
+      <div className="pointer-events-none absolute -top-32 -left-32 w-96 h-96 bg-blue-600/15 rounded-full blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-32 -right-32 w-96 h-96 bg-indigo-600/15 rounded-full blur-3xl" />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-2xl mx-auto mb-16"
-        >
-          <div className="inline-flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full mb-4 border border-white/10">
-            <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-            <span className="text-sm font-semibold text-white uppercase tracking-wide">Our Impact</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold mb-3">
-            Transforming Early-Career Trajectories
-          </h2>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
+
+        {/* ── Section Label ── */}
+        <motion.div {...fadeUp(0)} className="flex items-center gap-3 mb-10">
+          <span className="h-px w-8 bg-blue-500/60" />
+          <span className="text-xs font-semibold uppercase tracking-widest text-blue-400">
+            Market Validation
+          </span>
         </motion.div>
 
-        {/* Testimonials Carousel */}
-        <TestimonialCarousel testimonials={testimonials} />
+        {/* ── Header ── */}
+        <motion.div {...fadeUp(0.05)} className="mb-12 max-w-xl">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-3">
+            Backed by Data.{' '}
+            <span className="text-slate-400">Built for the Future of Work.</span>
+          </h2>
+          <p className="text-slate-400 text-base leading-relaxed">
+            The gap between academic theory and employment readiness is widening.
+            SkillBridge is engineered to solve a systemic problem recognised across the UK.
+          </p>
+        </motion.div>
+
+        {/* ── Two-column layout ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10">
+
+          {/* LEFT — Stats list */}
+          <div className="flex flex-col gap-4">
+            {marketStats.map((stat, i) => (
+              <motion.div
+                key={i}
+                {...fadeUp(0.1 + i * 0.1)}
+                className="group flex items-start gap-5 bg-white/[0.04] border border-white/[0.07] rounded-2xl p-5 hover:bg-white/[0.07] transition-colors"
+              >
+                {/* Metric badge */}
+                <div className="shrink-0 w-16 text-center">
+                  <span className={`text-2xl font-extrabold tracking-tight ${stat.color}`}>
+                    {stat.metric}
+                  </span>
+                </div>
+
+                {/* Divider */}
+                <div className="w-px self-stretch bg-white/[0.08]" />
+
+                {/* Copy */}
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <stat.icon className={`w-4 h-4 shrink-0 ${stat.color}`} />
+                    <h3 className="text-sm font-semibold text-white">{stat.title}</h3>
+                  </div>
+                  <p className="text-slate-400 text-xs leading-relaxed">{stat.description}</p>
+                  <span className="mt-2 inline-block text-[10px] font-medium text-slate-600 uppercase tracking-wider">
+                    {stat.source}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* RIGHT — Quote strip */}
+          <div className="flex flex-col gap-4">
+            <motion.div {...fadeUp(0.1)} className="mb-1">
+              <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+                Early Prototype Feedback
+              </p>
+            </motion.div>
+
+            {prototypeFeedback.map((fb, i) => (
+              <motion.div
+                key={i}
+                {...fadeUp(0.15 + i * 0.1)}
+                className="flex flex-col justify-between bg-slate-800/50 border border-slate-700/60 rounded-2xl p-5"
+              >
+                <div className="flex items-start gap-3 mb-4">
+                  <MessageSquareQuote className="w-4 h-4 text-slate-600 mt-0.5 shrink-0" />
+                  <p className="text-slate-300 text-sm leading-relaxed italic">
+                    "{fb.quote}"
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-3 pt-3 border-t border-slate-700/50">
+                  <div className={`w-7 h-7 rounded-full bg-slate-700 flex items-center justify-center ${fb.accent}`}>
+                    <fb.Icon size={14} weight="duotone" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-white leading-none">{fb.role}</p>
+                    <p className="text-[10px] text-slate-500 mt-0.5">{fb.category}</p>
+                  </div>
+                  <div className={`ml-auto w-1.5 h-1.5 rounded-full ${fb.dot} opacity-70`} />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+        </div>
       </div>
     </section>
   );
 };
 
-export { TestimonialConveyor };
 export default ImpactSection;

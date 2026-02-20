@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FormData, UserRole } from '../types';
 import { 
@@ -26,12 +26,16 @@ interface University {
   name: string;
 }
 
+export interface WaitlistFormHandle {
+  focusEmailInput: () => void;
+}
+
 // Minimalist background
 const MinimalBackground = () => (
   <div className="absolute inset-0 -z-10 h-full w-full bg-white" />
 );
 
-const WaitlistForm: React.FC = () => {
+const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
   // Multi-step form state
   const [currentStep, setCurrentStep] = useState<'email' | 'profile' | 'success'>('email');
   
@@ -50,6 +54,17 @@ const WaitlistForm: React.FC = () => {
   const [submitError, setSubmitError] = useState<string | null>(null);
   
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const emailInputRef = useRef<HTMLInputElement>(null);
+
+  // Expose focusEmailInput method to parent components
+  useImperativeHandle(ref, () => ({
+    focusEmailInput: () => {
+      if (emailInputRef.current) {
+        emailInputRef.current.focus();
+        emailInputRef.current.select();
+      }
+    }
+  }));
 
   useEffect(() => {
     const sortedUnis = universities.sort((a: University, b: University) => 
@@ -187,7 +202,7 @@ const WaitlistForm: React.FC = () => {
                   transition={{ delay: 0.1, duration: 0.5 }}
                   className="text-5xl md:text-6xl font-bold text-slate-900 tracking-tight mb-4 leading-tight"
                 >
-                  Join the Waitlist
+                  Are you interested?
                 </motion.h1>
                 
                 <motion.p 
@@ -196,7 +211,7 @@ const WaitlistForm: React.FC = () => {
                   transition={{ delay: 0.2, duration: 0.5 }}
                   className="text-xl text-slate-600 max-w-md mx-auto leading-relaxed"
                 >
-                  Be among the first to experience the future of academic collaboration
+                  Let us know if you are interested in SkillBridge, and we will keep you updated on our potential launch and early access opportunities.
                 </motion.p>
               </div>
 
@@ -215,6 +230,7 @@ const WaitlistForm: React.FC = () => {
                       <div className="relative">
                         <Mail className="absolute left-4 top-5 h-4 w-4 text-slate-400 pointer-events-none" />
                         <Input
+                          ref={emailInputRef}
                           type="email"
                           id="email-step1"
                           required
@@ -544,7 +560,7 @@ const WaitlistForm: React.FC = () => {
                           </span>
                         ) : (
                           <span className="flex items-center justify-center gap-2">
-                            Join the Waitlist
+                            Register your interest
                             <ArrowRight className="h-4 w-4" />
                           </span>
                         )}
@@ -568,49 +584,62 @@ const WaitlistForm: React.FC = () => {
               key="step3-success"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="w-full max-w-md mx-auto"
             >
-              <Card className="bg-white border-slate-200/60 shadow-xl shadow-slate-900/5 p-12 md:p-16 rounded-3xl text-center">
+              <div className="text-center mb-8">
                 <motion.div 
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.2 }}
-                  className="mx-auto flex items-center justify-center h-40 w-40 rounded-full bg-linear-to-br from-green-400 to-emerald-500 mb-8"
+                  className="mx-auto mb-6"
                 >
-                  <CheckCircle2 className="h-30 w-30 text-emerald-500" strokeWidth={2.5} />
+                  <div className="flex items-center justify-center h-20 w-20 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 mx-auto">
+                    <CheckCircle2 className="h-12 w-12 text-white" strokeWidth={2} />
+                  </div>
                 </motion.div>
                 
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
                 >
-                  <h3 className="text-3xl font-bold text-slate-900 mb-3">
+                  <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 tracking-tight">
                     You're on the list!
                   </h3>
                   
-                  <p className="text-slate-500 max-w-sm mx-auto mb-8">
-                    We've sent a confirmation to <span className="font-medium text-slate-700">{formData.email}</span>. 
-                    Check your inbox for next steps.
+                  <p className="text-lg text-slate-600 max-w-md mx-auto leading-relaxed mb-8">
+                    Thank you for registering your interest in SkillBridge. We will keep you updated on our launch and early access opportunities.
                   </p>
-                  
-                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <Button
-                      variant="outline"
-                      onClick={handleReset}
-                      className="h-11 px-6 rounded-xl border-2 border-slate-200 hover:bg-slate-50 font-medium"
-                    >
-                      Add another person
-                    </Button>
-                  </div>
                 </motion.div>
-              </Card>
+              </div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              >
+                <Card className="bg-white border-slate-200/60 p-8 rounded-3xl shadow-lg shadow-slate-900/5">
+                  <Button
+                    onClick={handleReset}
+                    className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors shadow-md shadow-blue-600/30"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      Sign up another person
+                      <ArrowRight className="h-4 w-4" />
+                    </span>
+                  </Button>
+                </Card>
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
     </section>
   );
-};
+});
+
+WaitlistForm.displayName = 'WaitlistForm';
 
 export default WaitlistForm;

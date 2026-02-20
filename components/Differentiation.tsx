@@ -4,7 +4,10 @@ import { Check, X } from 'lucide-react';
 
 const Differentiation: React.FC = () => {
   return (
-    <section className="bg-slate-900 py-16 lg:py-20 text-white">
+    <section id="impact"  className="relative bg-slate-900 py-16 lg:py-20 text-white overflow-hidden">
+      <div className="absolute top-0 left-0 w-96 h-96 bg-blue-600/20 rounded-full mix-blend-screen filter blur-3xl opacity-50" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-600/20 rounded-full mix-blend-screen filter blur-3xl opacity-50" />
+      <div className="relative z-10"></div>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           

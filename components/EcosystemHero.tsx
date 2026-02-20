@@ -9,6 +9,7 @@ import {
   Fingerprint
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { MedalIcon, ShieldCheckIcon } from '@phosphor-icons/react';
 
 interface EcosystemHeroProps {
   onScrollToWaitlist: () => void;
@@ -178,13 +179,6 @@ const EcosystemHero: React.FC<EcosystemHeroProps> = ({ onScrollToWaitlist }) => 
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
-              {/* Technical Kicker */}
-              <div className="flex items-center gap-4 mb-8">
-                <div className="h-[1px] w-12 bg-blue-600" />
-                <span className="font-mono text-xs font-semibold tracking-[0.2em] text-blue-600 uppercase">
-                  Project Code: SkillBridge
-                </span>
-              </div>
 
                           {/* High-Contrast Academic Heading */}
             <h1 className="text-4xl md:text-5xl lg:text-[4rem] font-bold tracking-tight text-slate-900 mb-8 leading-[1.05] font-display">
@@ -240,13 +234,13 @@ const EcosystemHero: React.FC<EcosystemHeroProps> = ({ onScrollToWaitlist }) => 
           transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
           className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-0 border border-slate-300 bg-white/90 backdrop-blur-sm relative"
         >
-          {/* Spec 1 */}
+{/* Spec 1 */}
           <div className="flex flex-col p-6 border-b md:border-b-0 md:border-r border-slate-300 group hover:bg-slate-50 transition-colors">
             <div className="flex items-center justify-between mb-4">
-              <ShieldCheck className="w-5 h-5 text-blue-600" strokeWidth={1.5} />
+              <ShieldCheckIcon className="w-5 h-5 text-blue-600" strokeWidth={1.5} />
             </div>
             <span className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-1">University Verified</span>
-            <span className="text-xs text-slate-500 font-medium">Institutional-grade vetting</span>
+            <span className="text-xs text-slate-500 font-medium">Authentic student profiles</span>
           </div>
 
           {/* Spec 2 */}
@@ -255,16 +249,16 @@ const EcosystemHero: React.FC<EcosystemHeroProps> = ({ onScrollToWaitlist }) => 
               <CheckCircle className="w-5 h-5 text-blue-600" strokeWidth={1.5} />
             </div>
             <span className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-1">Escrow Protected</span>
-            <span className="text-xs text-slate-500 font-medium">Secure transactional layer</span>
+            <span className="text-xs text-slate-500 font-medium">Risk-free, guaranteed payouts</span>
           </div>
 
           {/* Spec 3 */}
           <div className="flex flex-col p-6 group hover:bg-slate-50 transition-colors">
             <div className="flex items-center justify-between mb-4">
-              <Award className="w-5 h-5 text-blue-600" strokeWidth={1.5} />
+              <MedalIcon className="w-5 h-5 text-blue-600" strokeWidth={1.5} />
             </div>
             <span className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-1">Micro-Credentials</span>
-            <span className="text-xs text-slate-500 font-medium">Verifiable blockchain ledger</span>
+            <span className="text-xs text-slate-500 font-medium">Verifiable digital skill badges</span>
           </div>
         </motion.div>
 

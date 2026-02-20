@@ -42,10 +42,10 @@ const ResizableNavbar: React.FC<ResizableNavbarProps> = ({ onScrollToWaitlist })
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out py-4 ${
           isScrolled
-            ? 'py-3 bg-white/80 backdrop-blur-xl border-b border-slate-200/60 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]'
-            : 'py-5 bg-white/40 backdrop-blur-sm border-b border-transparent'
+            ? 'bg-white/80 backdrop-blur-xl border-b border-slate-200/60 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]'
+            : 'bg-white/40 backdrop-blur-sm border-b border-transparent'
         }`}
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
@@ -139,8 +139,8 @@ const ResizableNavbar: React.FC<ResizableNavbarProps> = ({ onScrollToWaitlist })
         </AnimatePresence>
       </header>
 
-      {/* Spacer to prevent content jump - matches the unscrolled navbar height */}
-      <div className="h-22" />
+      {/* Spacer to prevent content jump - matches the navbar height */}
+      <div className="h-20" />
     </>
   );
 };

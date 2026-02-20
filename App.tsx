@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import EnhancedNavbar from './components/EnhancedNavbar';
 import EcosystemHero from './components/EcosystemHero';
 import ProblemSlider from './components/ProblemSlider';
@@ -10,8 +10,11 @@ import WaitlistForm from './components/WaitlistForm';
 import Footer from './components/Footer';
 import PageTransition from './components/PageTransition';
 import { GridPattern } from './components/ui/grid-pattern';
+import type { WaitlistFormHandle } from './components/WaitlistForm';
 
 function App() {
+  const waitlistFormRef = useRef<WaitlistFormHandle>(null);
+
   useEffect(() => {
     // Scroll to top on page load for fresh experience
     window.scrollTo(0, 0);
@@ -21,6 +24,10 @@ function App() {
     const element = document.getElementById('waitlist');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+      // Focus the email input after a brief delay to allow the scroll to complete
+      setTimeout(() => {
+        waitlistFormRef.current?.focusEmailInput();
+      }, 600);
     }
   };
 
@@ -49,7 +56,7 @@ function App() {
           <FeatureExplorer />
           <Differentiation />
           <ImpactSection />
-          <WaitlistForm />
+          <WaitlistForm ref={waitlistFormRef} />
         </main>
 
         <Footer />
