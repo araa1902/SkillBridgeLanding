@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FormData, UserRole } from '../types';
-import { 
-  CheckCircle2, 
-  Loader2, 
-  Building2, 
-  User, 
-  Mail, 
+import {
+  CheckCircle2,
+  Loader2,
+  Building2,
+  User,
+  Mail,
   Briefcase,
   Search,
   Shield,
@@ -38,21 +38,21 @@ const MinimalBackground = () => (
 const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
   // Multi-step form state
   const [currentStep, setCurrentStep] = useState<'email' | 'profile' | 'success'>('email');
-  
+
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     role: 'Student',
     organization: ''
   });
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [filteredUniversities, setFilteredUniversities] = useState<University[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [activeField, setActiveField] = useState<string | null>(null);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  
+
   const dropdownRef = useRef<HTMLDivElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
 
@@ -67,7 +67,7 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
   }));
 
   useEffect(() => {
-    const sortedUnis = universities.sort((a: University, b: University) => 
+    const sortedUnis = universities.sort((a: University, b: University) =>
       a.name.localeCompare(b.name)
     );
     setFilteredUniversities(sortedUnis);
@@ -91,7 +91,7 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.email.trim() || !isValidEmail(formData.email)) return;
-    
+
     setIsSubmitting(true);
     await new Promise(resolve => setTimeout(resolve, 500));
     setIsSubmitting(false);
@@ -102,12 +102,12 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
   const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!acceptedTerms || !formData.organization.trim()) return;
-    
+
     setIsSubmitting(true);
     setSubmitError(null);
     try {
       const response = await submitWaitlistSignup(formData);
-      
+
       if (response.success) {
         setCurrentStep('success');
       } else {
@@ -183,7 +183,7 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
   return (
     <section id="waitlist" className="relative min-h-screen w-full overflow-hidden flex items-center justify-center px-4 py-20">
       <MinimalBackground />
-      
+
       <div className="container relative z-10 mx-auto max-w-120">
         <AnimatePresence mode='wait'>
           {/* STEP 1: Email Capture (The Hook) */}
@@ -196,7 +196,7 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             >
               <div className="text-center mb-12">
-                <motion.h1 
+                <motion.h1
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1, duration: 0.5 }}
@@ -204,14 +204,14 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
                 >
                   Are you interested?
                 </motion.h1>
-                
-                <motion.p 
+
+                <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
                   className="text-xl text-slate-600 max-w-md mx-auto leading-relaxed"
                 >
-                  Let us know if you are interested in SkillBridge, and we will keep you updated on our potential launch and early access opportunities.
+                  Let us know if you are interested in SkillBridge, and we will keep you updated on our launch and early access opportunities.
                 </motion.p>
               </div>
 
@@ -238,7 +238,7 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
                           onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                           onFocus={() => setActiveField('email-step1')}
                           onBlur={() => setActiveField(null)}
-                          placeholder="your@university.edu"
+                          placeholder="Enter your email address..."
                           className={cn(
                             "h-14 pl-11 pr-4 bg-slate-50/50 border-2 rounded-xl transition-all duration-200 text-base",
                             "placeholder:text-slate-400",
@@ -255,22 +255,22 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
                       type="submit"
                       disabled={isSubmitting || !formData.email.trim() || !isValidEmail(formData.email)}
                       className={cn(
-                      "w-full h-14 font-semibold rounded-xl transition-all duration-200 text-base",
-                      isSubmitting || !formData.email.trim() || !isValidEmail(formData.email)
-                        ? "bg-slate-100 text-slate-400 cursor-not-allowed" 
-                        : "bg-white border-2 border-slate-200 text-slate-900 hover:border-blue-500 hover:bg-blue-50/30 hover:text-blue-600"
+                        "w-full h-14 font-semibold rounded-xl transition-all duration-200 text-base",
+                        isSubmitting || !formData.email.trim() || !isValidEmail(formData.email)
+                          ? "bg-slate-100 text-slate-400 cursor-not-allowed"
+                          : "bg-white border-2 border-slate-200 text-slate-900 hover:border-blue-500 hover:bg-blue-50/30 hover:text-blue-600"
                       )}
                     >
                       {isSubmitting ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <Loader2 className="animate-spin h-4 w-4" />
-                        Confirming...
-                      </span>
+                        <span className="flex items-center justify-center gap-2">
+                          <Loader2 className="animate-spin h-4 w-4" />
+                          Confirming...
+                        </span>
                       ) : (
-                      <span className="flex items-center justify-center gap-2">
-                        Get Started
-                        <ArrowRight className="h-4 w-4" />
-                      </span>
+                        <span className="flex items-center justify-center gap-2">
+                          Get Started
+                          <ArrowRight className="h-4 w-4" />
+                        </span>
                       )}
                     </Button>
 
@@ -295,7 +295,7 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             >
               <div className="text-center mb-10">
-                <motion.h2 
+                <motion.h2
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1, duration: 0.5 }}
@@ -303,8 +303,8 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
                 >
                   Almost there!
                 </motion.h2>
-                
-                <motion.p 
+
+                <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
@@ -331,7 +331,7 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
               >
                 <Card className="bg-white border-slate-200/60 p-8 md:p-10 rounded-3xl shadow-lg shadow-slate-900/5">
                   <form onSubmit={handleProfileSubmit} className="space-y-6">
-                    
+
                     {/* Full Name - Optional */}
                     <div className="space-y-2.5">
                       <Label htmlFor="name" className="text-sm font-semibold text-slate-700">
@@ -414,7 +414,7 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
                       <Label htmlFor="organization" className="text-sm font-semibold text-slate-700">
                         {getOrganizationLabel()} <span className="text-xs text-red-500 font-normal">*</span>
                       </Label>
-                      
+
                       {formData.role === 'Business' ? (
                         // For Business: Simple text input for company
                         <div className="relative">
@@ -459,7 +459,7 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
                             )}
                             autoComplete="off"
                           />
-                          
+
                           <AnimatePresence>
                             {showDropdown && (
                               <motion.div
@@ -547,7 +547,7 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
                         <ChevronLeft className="h-4 w-4 mr-2" />
                         Back
                       </Button>
-                      
+
                       <Button
                         type="submit"
                         disabled={isSubmitting || !acceptedTerms || !formData.organization.trim()}
@@ -589,7 +589,7 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
               className="w-full max-w-md mx-auto"
             >
               <div className="text-center mb-8">
-                <motion.div 
+                <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.2 }}
@@ -599,7 +599,7 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
                     <CheckCircle2 className="h-12 w-12 text-white" strokeWidth={2} />
                   </div>
                 </motion.div>
-                
+
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -608,7 +608,7 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
                   <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 tracking-tight">
                     You're on the list!
                   </h3>
-                  
+
                   <p className="text-lg text-slate-600 max-w-md mx-auto leading-relaxed mb-8">
                     Thank you for registering your interest in SkillBridge. We will keep you updated on our launch and early access opportunities.
                   </p>

@@ -69,7 +69,7 @@ export async function submitWaitlistSignup(
 
     if (error) {
       console.error('Supabase error:', error);
-      
+
       // Handle duplicate email error
       if (error.code === '23505' || error.message?.includes('duplicate')) {
         return {
@@ -94,6 +94,24 @@ export async function submitWaitlistSignup(
       };
     }
 
+    // Trigger confirmation email via Edge Function
+    try {
+      const { error: invokeError } = await supabase.functions.invoke('send-waitlist-email', {
+        body: {
+          email: data[0].email,
+          organization: formData.organization,
+          role: formData.role
+        }
+      });
+
+      if (invokeError) {
+        console.error('Failed to send confirmation email:', invokeError);
+        // We still continue and return success because the database insert succeeded
+      }
+    } catch (edgeError) {
+      console.error('Error invoking edge function:', edgeError);
+    }
+
     return {
       success: true,
       message: 'Successfully joined the waitlist',
@@ -112,3 +130,4 @@ export async function submitWaitlistSignup(
     };
   }
 }
+

@@ -42,15 +42,14 @@ const ResizableNavbar: React.FC<ResizableNavbarProps> = ({ onScrollToWaitlist })
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out py-4 ${
-          isScrolled
-            ? 'bg-white/80 backdrop-blur-xl border-b border-slate-200/60 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]'
-            : 'bg-white/40 backdrop-blur-sm border-b border-transparent'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out py-4 ${isScrolled
+          ? 'bg-white/80 backdrop-blur-xl border-b border-slate-200/60 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]'
+          : 'bg-white/40 backdrop-blur-sm border-b border-transparent'
+          }`}
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div className="flex items-center justify-between">
-            
+
             {/* Logo */}
             <motion.div
               whileHover={{ scale: 1.02 }}
@@ -82,7 +81,7 @@ const ResizableNavbar: React.FC<ResizableNavbarProps> = ({ onScrollToWaitlist })
                 onClick={onScrollToWaitlist}
                 className="hidden md:inline-flex text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md transition-all rounded-full px-6"
               >
-                Get Early Access
+                Join the Waitlist
               </Button>
 
               {/* Mobile Menu Button */}
@@ -130,7 +129,7 @@ const ResizableNavbar: React.FC<ResizableNavbarProps> = ({ onScrollToWaitlist })
                     }}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full py-6"
                   >
-                    Get Early Access
+                    Join the Waitlist
                   </Button>
                 </div>
               </div>
