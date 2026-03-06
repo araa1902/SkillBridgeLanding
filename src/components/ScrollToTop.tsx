@@ -14,6 +14,9 @@ export default function ScrollToTop() {
     }, []);
 
     useLayoutEffect(() => {
+        // Since global scroll-behavior: smooth is removed from CSS,
+        // window.scrollTo(0, 0) will be naturally instant.
+
         // Only manually scroll to top on PUSH (new page) or REPLACE
         // Let the browser's 'auto' restoration handle the POP (back) behavior
         if (navType !== 'POP') {

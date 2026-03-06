@@ -39,6 +39,26 @@ const ResizableNavbar: React.FC<ResizableNavbarProps> = ({ onScrollToWaitlist })
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Handle smooth scroll to section
+  const handleSectionClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const targetId = href.replace('#', '');
+    const element = document.getElementById(targetId);
+    if (element) {
+      const offset = 80; // Account for fixed navbar height
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+  };
+
   return (
     <>
       <header
@@ -68,6 +88,7 @@ const ResizableNavbar: React.FC<ResizableNavbarProps> = ({ onScrollToWaitlist })
                 <a
                   key={link.name}
                   href={link.href}
+                  onClick={(e) => handleSectionClick(e, link.href)}
                   className="text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-200 px-3 py-2 rounded-full transition-all duration-200 ease-out"
                 >
                   {link.name}
@@ -115,7 +136,7 @@ const ResizableNavbar: React.FC<ResizableNavbarProps> = ({ onScrollToWaitlist })
                   <a
                     key={link.name}
                     href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={(e) => handleSectionClick(e, link.href)}
                     className="text-base font-medium text-slate-700 hover:text-blue-600 hover:bg-slate-50 px-4 py-3 rounded-lg transition-colors"
                   >
                     {link.name}
