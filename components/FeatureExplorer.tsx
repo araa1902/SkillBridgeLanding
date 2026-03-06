@@ -127,7 +127,7 @@ const FeatureExplorer: React.FC = () => {
         >
           <BentoGrid className="lg:grid-rows-3">
             {features.map((feature) => (
-              <BentoCard 
+              <BentoCard
                 key={feature.title}
                 name={feature.title}
                 Icon={feature.icon}

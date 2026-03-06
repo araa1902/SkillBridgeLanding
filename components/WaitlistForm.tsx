@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useWaitlist } from '../src/context/WaitlistContext';
 import { FormData, UserRole } from '../types';
 import {
   CheckCircle2,
@@ -36,22 +38,22 @@ const MinimalBackground = () => (
 );
 
 const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
-  // Multi-step form state
-  const [currentStep, setCurrentStep] = useState<'email' | 'profile' | 'success'>('email');
-
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    role: 'Student',
-    organization: ''
-  });
+  const {
+    currentStep,
+    setCurrentStep,
+    formData,
+    setFormData,
+    acceptedTerms,
+    setAcceptedTerms,
+    submitError,
+    setSubmitError,
+    resetForm
+  } = useWaitlist();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [filteredUniversities, setFilteredUniversities] = useState<University[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [activeField, setActiveField] = useState<string | null>(null);
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -130,15 +132,7 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
 
   // Reset form
   const handleReset = () => {
-    setFormData({
-      name: '',
-      email: '',
-      role: 'Student',
-      organization: ''
-    });
-    setAcceptedTerms(false);
-    setSubmitError(null);
-    setCurrentStep('email');
+    resetForm();
   };
 
   // Handle form field changes
@@ -523,13 +517,13 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
                         <div className="flex-1 min-w-0">
                           <span className="text-sm text-slate-600">
                             I agree to the{' '}
-                            <a href="/privacy" className="font-semibold text-blue-600 hover:text-blue-700 underline transition-colors">
+                            <Link to="/privacy-policy" className="font-semibold text-blue-600 hover:text-blue-700 underline transition-colors">
                               Privacy Policy
-                            </a>{' '}
+                            </Link>{' '}
                             and{' '}
-                            <a href="/terms" className="font-semibold text-blue-600 hover:text-blue-700 underline transition-colors">
+                            <Link to="/terms-of-service" className="font-semibold text-blue-600 hover:text-blue-700 underline transition-colors">
                               Terms of Service
-                            </a>
+                            </Link>
                           </span>
                         </div>
                       </label>

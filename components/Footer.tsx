@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Linkedin } from 'lucide-react';
 
 const Footer: React.FC = () => {
@@ -10,11 +11,12 @@ const Footer: React.FC = () => {
             <span className="text-xl font-bold text-slate-900 tracking-tight">SkillBridge</span>
             <p className="text-sm text-slate-500 mt-2">© {new Date().getFullYear()} SkillBridge. All rights reserved.</p>
           </div>
-          
+
           <div className="flex items-center space-x-8">
             <a href="#" className="text-sm text-slate-500 hover:text-slate-900 transition-colors font-medium">About</a>
             <a href="#" className="text-sm text-slate-500 hover:text-slate-900 transition-colors font-medium">Contact</a>
-            <a href="#" className="text-sm text-slate-500 hover:text-slate-900 transition-colors font-medium">Privacy</a>
+            <Link to="/privacy-policy" className="text-sm text-slate-500 hover:text-slate-900 transition-colors font-medium">Privacy</Link>
+            <Link to="/terms-of-service" className="text-sm text-slate-500 hover:text-slate-900 transition-colors font-medium">Terms</Link>
             <a href="#" className="text-slate-400 hover:text-[#0077b5] transition-colors">
               <span className="sr-only">LinkedIn</span>
               <Linkedin className="h-5 w-5" />

@@ -5,7 +5,6 @@
    ========================================================================== */
 
 html {
-  scroll-behavior: smooth;
   scroll-padding-top: 4rem;
 }
 
@@ -19,7 +18,8 @@ body {
 
 /* Sharp, high-contrast text selection (Terminal style) */
 ::selection {
-  background-color: #2563eb; /* Tech blue */
+  background-color: #2563eb;
+  /* Tech blue */
   color: #ffffff;
 }
 
@@ -48,7 +48,7 @@ body {
 ::-webkit-scrollbar-thumb {
   background-color: #94a3b8;
   /* Sharp corners instead of pills */
-  border-radius: 0px; 
+  border-radius: 0px;
   border: 2px solid #f8fafc;
 }
 
@@ -99,6 +99,7 @@ textarea:focus-visible {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -106,14 +107,26 @@ textarea:focus-visible {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 /* Terminal Cursor Blink */
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 .animate-blink {
@@ -122,8 +135,13 @@ textarea:focus-visible {
 
 /* Subtle data processing shimmer (sharp edges, not soft pulses) */
 @keyframes dataShimmer {
-  0% { background-position: -1000px 0; }
-  100% { background-position: 1000px 0; }
+  0% {
+    background-position: -1000px 0;
+  }
+
+  100% {
+    background-position: 1000px 0;
+  }
 }
 
 .animate-data-shimmer {
@@ -134,8 +152,15 @@ textarea:focus-visible {
 
 /* Blueprint grid panning effect */
 @keyframes panGrid {
-  from { transform: translateY(0) translateX(0); }
-  to { transform: translateY(40px) translateX(40px); } /* Matches background-size */
+  from {
+    transform: translateY(0) translateX(0);
+  }
+
+  to {
+    transform: translateY(40px) translateX(40px);
+  }
+
+  /* Matches background-size */
 }
 
 .animate-grid-pan {

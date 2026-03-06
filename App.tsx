@@ -15,11 +15,6 @@ import type { WaitlistFormHandle } from './components/WaitlistForm';
 function App() {
   const waitlistFormRef = useRef<WaitlistFormHandle>(null);
 
-  useEffect(() => {
-    // Scroll to top on page load for fresh experience
-    window.scrollTo(0, 0);
-  }, []);
-
   const scrollToWaitlist = () => {
     const element = document.getElementById('waitlist');
     if (element) {
@@ -36,7 +31,7 @@ function App() {
       <div className="relative min-h-screen bg-white text-slate-900 selection:bg-blue-100 selection:text-blue-900">
         {/* Grid Pattern Background */}
         <div className="absolute inset-0 -z-10 pointer-events-none opacity-50">
-          <GridPattern 
+          <GridPattern
             className="absolute inset-0"
             width={40}
             height={40}
@@ -46,7 +41,7 @@ function App() {
             strokeColor="rgb(30, 58, 138)"
           />
         </div>
-        
+
         <EnhancedNavbar onScrollToWaitlist={scrollToWaitlist} />
 
         <main>
