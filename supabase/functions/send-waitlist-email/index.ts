@@ -25,7 +25,8 @@ serve(async (req) => {
     // Example: 'SkillBridge <notifications@yourdomain.com>'
     // For testing without a verified domain, you can only send to the email address associated with your Resend account, from 'onboarding@resend.dev'
     const fromEmail = Deno.env.get("RESEND_FROM_EMAIL") || 'onboarding@resend.dev';
-    const siteUrl = Deno.env.get("SITE_URL") || 'http://localhost:3000';
+    let siteUrl = Deno.env.get("SITE_URL") || 'http://localhost:3000';
+    siteUrl = siteUrl.replace(/\/$/, "");
 
     const data = await resend.emails.send({
       from: `SkillBridge Waitlist <${fromEmail}>`,
