@@ -25,6 +25,7 @@ serve(async (req) => {
     // Example: 'SkillBridge <notifications@yourdomain.com>'
     // For testing without a verified domain, you can only send to the email address associated with your Resend account, from 'onboarding@resend.dev'
     const fromEmail = Deno.env.get("RESEND_FROM_EMAIL") || 'onboarding@resend.dev';
+    const siteUrl = Deno.env.get("SITE_URL") || 'http://localhost:3000';
 
     const data = await resend.emails.send({
       from: `SkillBridge Waitlist <${fromEmail}>`,
@@ -57,7 +58,7 @@ serve(async (req) => {
             
             <div style="border-top: 1px solid #e2e8f0; padding-top: 24px; text-align: center; font-size: 13px; color: #94a3b8;">
               <p style="margin-bottom: 8px;">You are receiving this email because you registered for the SkillBridge waitlist.</p>
-              <p style="margin: 0;"><a href="https://yourdomain.com/unsubscribe?email=${encodeURIComponent(email)}" style="color: #64748b; text-decoration: underline;">Unsubscribe</a> from this list.</p>
+              <p style="margin: 0;"><a href="${siteUrl}/unsubscribe?email=${encodeURIComponent(email)}" style="color: #64748b; text-decoration: underline;">Unsubscribe</a> from this list.</p>
             </div>
           </div>
         </div>
