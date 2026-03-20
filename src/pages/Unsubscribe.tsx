@@ -26,30 +26,28 @@ export default function Unsubscribe() {
         }
     }, [emailParam]);
 
-    const handleUnsubscribe = async () => {
-        if (!emailParam) return;
+const handleUnsubscribe = async () => {
+    if (!emailParam) return;
 
-        setStatus('loading');
+    setStatus('loading');
 
-        try {
-            // In a real production app, you might want a more secure token-based approach. 
-            // For this waitlist, matching the email is sufficient to remove them.
-            const { error } = await supabase
-                .from('waitlist_signups')
-                .delete()
-                .eq('email', emailParam.toLowerCase());
+    try {
+        // Call the Edge Function to handle deletion securely (bypassing RLS)
+        const { data, error } = await supabase.functions.invoke('handle-unsubscribe', {
+            body: { email: emailParam.toLowerCase() }
+        });
 
-            if (error) {
-                throw error;
-            }
-
-            setStatus('success');
-        } catch (err) {
-            console.error('Error unsubscribing:', err);
-            setStatus('error');
-            setErrorMessage('We encountered an error while trying to unsubscribe you. Please try again later.');
+        if (error || (data && data.error)) {
+            throw error || new Error(data.error);
         }
-    };
+
+        setStatus('success');
+    } catch (err) {
+        console.error('Error unsubscribing:', err);
+        setStatus('error');
+        setErrorMessage('We encountered an error while trying to unsubscribe you. Please try again later.');
+    }
+};
 
     return (
         <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4">

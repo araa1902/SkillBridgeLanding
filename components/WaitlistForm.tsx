@@ -262,7 +262,7 @@ const WaitlistForm = forwardRef<WaitlistFormHandle>((_, ref) => {
                         </span>
                       ) : (
                         <span className="flex items-center justify-center gap-2">
-                          Get Started
+                          Continue
                           <ArrowRight className="h-4 w-4" />
                         </span>
                       )}
